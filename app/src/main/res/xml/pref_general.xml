@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <EditTextPreference
+            android:defaultValue="@string/pref_default_tracker_number"
+            android:inputType="phone"
+            android:key="@string/pref_key_tracker_number"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_tracker_number" />
+
+        <EditTextPreference
+            android:defaultValue="@string/pref_default_sms_message"
+            android:inputType="text"
+            android:key="@string/pref_key_sms_message"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_sms_message" />
+
+</PreferenceScreen>
