@@ -40,6 +40,36 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
         PreferenceManager.setDefaultValues(this,getString(R.string.pref_file_key),MODE_PRIVATE,R.xml.pref_general,false);
+
+        //Check button states
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
+        if (sharedPref.getString("pref_key_tracker_number","").isEmpty())
+        {
+            TextView buttonGetLocation = (TextView) findViewById(R.id.button_get_location);
+            buttonGetLocation.setEnabled(false);
+            initialSetup();
+        }
+
+        String latitudeString = sharedPref.getString(getString(R.string.saved_latitude),"1000");
+        String longitudeString = sharedPref.getString(getString(R.string.saved_longitude),"1000");
+        if (!latitudeString.isEmpty() && !longitudeString.isEmpty()) {
+            double latitude = Double.parseDouble(latitudeString);
+            double longitude = Double.parseDouble(longitudeString);
+            if (!(latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180)) {
+                TextView buttonViewLocation = (TextView) findViewById(R.id.button_view_location);
+                buttonViewLocation.setEnabled(false);
+            }
+        }
+        else{
+            TextView buttonViewLocation = (TextView) findViewById(R.id.button_view_location);
+            buttonViewLocation.setEnabled(false);
+        }
+
+    }
+
+    private void initialSetup(){
+        Intent intent = new Intent(this,SettingsActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -68,6 +98,8 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onReceive(Context context, Intent intent) {
             updateInformationFragment();
+            TextView buttonViewLocation = (TextView) findViewById(R.id.button_view_location);
+            buttonViewLocation.setEnabled(intent.getBooleanExtra("button_view_location_state",false));
         }
     };
 
@@ -203,34 +235,16 @@ public class MainActivity extends AppCompatActivity{
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
         double latitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_latitude),"1000"));
         double longitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_longitude),"1000"));
-        Log.e("Test", "latitude: " + latitude);
-        Log.e("Test", "longitude: " + longitude);
-        Log.e("Test", "bool: " + (latitude >= -90 && latitude <= 90 && longitude >=-180 && longitude <= 180));
-        if (latitude >= -90 && latitude <= 90 && longitude >=-180 && longitude <= 180){
-            Intent intent = new Intent(this,MapActivity.class);
-            intent.putExtra("latitude",latitude);
-            intent.putExtra("longitude",longitude);
-            startActivity(intent);
-        }
-        else
-        {
 
-        }
-
+        Intent intent = new Intent(this,MapActivity.class);
+        intent.putExtra("latitude",latitude);
+        intent.putExtra("longitude",longitude);
+        startActivity(intent);
     }
 
     private void updateInformationFragment(){
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
-        Bundle args = new Bundle();
-        args.putString("Date",sharedPref.getString(getString(R.string.saved_date),""));
-        args.putString("Time",sharedPref.getString(getString(R.string.saved_time),""));
-        args.putString("Speed",sharedPref.getString(getString(R.string.saved_speed),""));
-        args.putString("Latitude",sharedPref.getString(getString(R.string.saved_latitude),""));
-        args.putString("Longitude",sharedPref.getString(getString(R.string.saved_longitude),""));
-
         // Update fragment with new args
         CarInformationFragment newFragment = new CarInformationFragment();
-        newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.car_status_container, newFragment);
         transaction.addToBackStack(null);

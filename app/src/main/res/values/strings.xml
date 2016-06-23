@@ -16,7 +16,7 @@
     <string name="saved_country_iso">saved_country_iso</string>
 
     <string name="pref_title_tracker_number">Tracker number</string>
-    <string name="pref_default_tracker_number">5554</string>
+    <string name="pref_default_tracker_number"></string>
     <string name="pref_hint_tracker_number">Enter on form: 07XXXXXXXX</string>
     <string name="pref_title_sms_message">Message to send</string>
     <string name="pref_default_sms_message">Test Message!</string>

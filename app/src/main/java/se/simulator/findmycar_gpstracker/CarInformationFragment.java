@@ -18,17 +18,18 @@ public class CarInformationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View myInflatedView = inflater.inflate(R.layout.fragment_car_information, container, false);
-        Bundle args = getArguments();
+
+        SharedPreferences sharedPref = getContext().getSharedPreferences(getString(R.string.pref_file_key),getContext().MODE_PRIVATE);
+
         String text = "";
-        if (args != null) {
-            text += getResources().getString(R.string.carinformationfragment_text_date) + args.getString("Date") + "\n";
-            text += getResources().getString(R.string.carinformationfragment_text_time) + args.getString("Time") + "\n";
-            text += getResources().getString(R.string.carinformationfragment_text_speed) + args.getString("Speed") + "\n";
-            text += getResources().getString(R.string.carinformationfragment_text_latitude) + args.getString("Latitude") + "\n";
-            text += getResources().getString(R.string.carinformationfragment_text_longitude) + args.getString("Longitude") + "\n";
-            TextView textview = (TextView) myInflatedView.findViewById(R.id.text_car_information);
-            textview.setText(text);
-        }
+
+        text += getResources().getString(R.string.carinformationfragment_text_date) + sharedPref.getString(getString(R.string.saved_date),"") + "\n";
+        text += getResources().getString(R.string.carinformationfragment_text_time) + sharedPref.getString(getString(R.string.saved_time),"") + "\n";
+        text += getResources().getString(R.string.carinformationfragment_text_speed) + sharedPref.getString(getString(R.string.saved_speed),"") + "\n";
+        text += getResources().getString(R.string.carinformationfragment_text_latitude) + sharedPref.getString(getString(R.string.saved_latitude),"") + "\n";
+        text += getResources().getString(R.string.carinformationfragment_text_longitude) + sharedPref.getString(getString(R.string.saved_longitude),"") + "\n";
+        TextView textview = (TextView) myInflatedView.findViewById(R.id.text_car_information);
+        textview.setText(text);
 
         return myInflatedView;
     }

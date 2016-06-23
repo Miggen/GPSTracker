@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.widget.TextView;
 
 
 public class SmsReceiver extends BroadcastReceiver{
@@ -25,6 +26,7 @@ public class SmsReceiver extends BroadcastReceiver{
             PhoneNumberUtils utils = new PhoneNumberUtils();
             Object[] pdus = (Object[]) bundle.get("pdus");
             msgs = new SmsMessage[pdus.length];
+            boolean coordinateState = true;
 
             for (int i = 0; i < msgs.length; i++) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -41,12 +43,13 @@ public class SmsReceiver extends BroadcastReceiver{
                     updateValuefromString(msgs[i].getMessageBody() + " ", "D:", editor, context);
                     updateValuefromString(msgs[i].getMessageBody() + " ", "T:", editor, context);
                     updateValuefromString(msgs[i].getMessageBody() + " ", "S:", editor, context);
-                    updateValuefromString(msgs[i].getMessageBody() + " ", "C:", editor, context);
+                    coordinateState = updateValuefromString(msgs[i].getMessageBody() + " ", "C:", editor, context);
                     editor.commit();
 
                     // Update GUI
                     Intent updateIntent = new Intent();
                     updateIntent.setAction(context.getString(R.string.filter_message_received));
+                    updateIntent.putExtra("button_view_location_state",coordinateState);
                     context.sendBroadcast(updateIntent);
                 }
             }
@@ -55,7 +58,7 @@ public class SmsReceiver extends BroadcastReceiver{
     }
 
 
-    private void updateValuefromString(String str, String searchTerm, SharedPreferences.Editor editor,Context context){
+    private boolean updateValuefromString(String str, String searchTerm, SharedPreferences.Editor editor,Context context){
         int startindex = str.indexOf(searchTerm);
         int endindex;
         String value;
@@ -65,45 +68,56 @@ public class SmsReceiver extends BroadcastReceiver{
                     endindex = str.indexOf(' ', startindex);
                     value = str.substring(startindex + searchTerm.length(), endindex);
                     editor.putString(context.getString(R.string.saved_date), value);
-                    break;
+                    return true;
                 case "T:":
                     endindex = str.indexOf(' ', startindex);
                     value = str.substring(startindex + searchTerm.length(), endindex);
                     editor.putString(context.getString(R.string.saved_time), value);
-                    break;
+                    return true;
                 case "S:":
                     endindex = str.indexOf(' ', startindex);
                     value = str.substring(startindex + searchTerm.length(), endindex);
                     editor.putString(context.getString(R.string.saved_speed), value);
-                    break;
+                    return true;
                 case "C:":
                     endindex = str.indexOf(' ', startindex);
                     value = str.substring(startindex + searchTerm.length(), endindex-1);
-                    editor.putString(context.getString(R.string.saved_latitude), value);
+                    double latitude = Double.parseDouble(value);
                     startindex = endindex + 1;
+
                     endindex = str.indexOf(' ', startindex);
-                    value = str.substring(startindex, endindex);
-                    editor.putString(context.getString(R.string.saved_longitude), value);
-                    break;
+                    String longitudeString = str.substring(startindex, endindex);
+                    double longitude = Double.parseDouble(value);
+
+                    if (latitude >= -90 && latitude <= 90 && longitude >=-180 && longitude <= 180) {
+                        editor.putString(context.getString(R.string.saved_latitude), value);
+                        editor.putString(context.getString(R.string.saved_longitude), longitudeString);
+                        return true;
+                    }
+                    else{
+                        editor.putString(context.getString(R.string.saved_latitude), "");
+                        editor.putString(context.getString(R.string.saved_longitude), "");
+                        return false;
+                    }
             }
         }
         else{
             switch (searchTerm) {
                 case "D:":
                     editor.putString(context.getString(R.string.saved_date), "");
-                    break;
+                    return true;
                 case "T:":
                     editor.putString(context.getString(R.string.saved_time), "");
-                    break;
+                    return true;
                 case "S:":
                     editor.putString(context.getString(R.string.saved_speed), "");
-                    break;
+                    return true;
                 case "C:":
                     editor.putString(context.getString(R.string.saved_latitude), "");
                     editor.putString(context.getString(R.string.saved_longitude), "");
-                    break;
+                    return false;
             }
         }
-
+        return true;
     }
 }
