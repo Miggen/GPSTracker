@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <EditTextPreference
+        <se.simulator.findmycar_gpstracker.PreferenceTelephoneNumber
             android:defaultValue="@string/pref_default_tracker_number"
+            android:hint="@string/pref_hint_tracker_number"
+            android:summary="%s"
             android:inputType="phone"
-            android:key="@string/pref_key_tracker_number"
+            android:key="pref_key_tracker_number"
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/pref_title_tracker_number" />
 
         <EditTextPreference
+            android:hint="@string/pref_hint_sms_message"
             android:defaultValue="@string/pref_default_sms_message"
+            android:summary="%s"
             android:inputType="text"
-            android:key="@string/pref_key_sms_message"
+            android:key="pref_key_sms_message"
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"

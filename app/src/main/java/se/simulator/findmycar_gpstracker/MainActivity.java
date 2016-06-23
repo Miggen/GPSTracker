@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
@@ -93,10 +94,15 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void getLocation(View view) {
+
         TextView buttonGetLocation = (TextView) findViewById(R.id.button_get_location);
         buttonGetLocation.setEnabled(false);
         if (checkPermissionSMS()) {
             sendSMS();
+        }
+        else
+        {
+            buttonGetLocation.setEnabled(true);
         }
     }
 
@@ -152,7 +158,7 @@ public class MainActivity extends AppCompatActivity{
             }
         },new IntentFilter(delivered));
 
-        String[] preferenceKeys = {getString(R.string.pref_key_tracker_number), getString(R.string.pref_key_sms_message)};
+        String[] preferenceKeys = {"pref_key_tracker_number", "pref_key_sms_message"};
         String[] preferences = readPreferences(preferenceKeys);
 
         SmsManager sm = SmsManager.getDefault();
@@ -194,7 +200,23 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void viewLocation(View view) {
-        // View location on map
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
+        double latitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_latitude),"1000"));
+        double longitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_longitude),"1000"));
+        Log.e("Test", "latitude: " + latitude);
+        Log.e("Test", "longitude: " + longitude);
+        Log.e("Test", "bool: " + (latitude >= -90 && latitude <= 90 && longitude >=-180 && longitude <= 180));
+        if (latitude >= -90 && latitude <= 90 && longitude >=-180 && longitude <= 180){
+            Intent intent = new Intent(this,MapActivity.class);
+            intent.putExtra("latitude",latitude);
+            intent.putExtra("longitude",longitude);
+            startActivity(intent);
+        }
+        else
+        {
+
+        }
+
     }
 
     private void updateInformationFragment(){

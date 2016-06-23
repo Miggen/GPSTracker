@@ -1,0 +1,19 @@
+<resources>
+    <!--
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=FC:FF:5E:C5:98:C8:D8:97:59:7F:A8:F5:2C:11:A8:0D:82:C5:AD:B8%3Bse.simulator.findmycar_gpstracker
+
+    You can also add your credentials to an existing key, using this line:
+    FC:FF:5E:C5:98:C8:D8:97:59:7F:A8:F5:2C:11:A8:0D:82:C5:AD:B8;se.simulator.findmycar_gpstracker
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyDdH1PkDgHY_NZEeNGdIpvAE6bjfG89RdU
+    </string>
+</resources>
