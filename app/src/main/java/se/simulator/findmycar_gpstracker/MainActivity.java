@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity{
     private static final int PERMISSION_REQUEST_SEND_SMS = 1;
+    private boolean receiverSmsSentRegistered = false;
+    private boolean receiverSmsDeliveredRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +49,12 @@ public class MainActivity extends AppCompatActivity{
         {
             TextView buttonGetLocation = (TextView) findViewById(R.id.button_get_location);
             buttonGetLocation.setEnabled(false);
+
             initialSetup();
         }
 
-        String latitudeString = sharedPref.getString(getString(R.string.saved_latitude),"1000");
-        String longitudeString = sharedPref.getString(getString(R.string.saved_longitude),"1000");
+        String latitudeString = sharedPref.getString(getString(R.string.saved_latitude),"");
+        String longitudeString = sharedPref.getString(getString(R.string.saved_longitude),"");
         if (!latitudeString.isEmpty() && !longitudeString.isEmpty()) {
             double latitude = Double.parseDouble(latitudeString);
             double longitude = Double.parseDouble(longitudeString);
@@ -68,8 +71,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initialSetup(){
+        TextView textview = (TextView) findViewById(R.id.text1);
+
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
+        textview.setText("Enter settings for configuration");
     }
 
     @Override
@@ -92,6 +98,14 @@ public class MainActivity extends AppCompatActivity{
     protected void onPause(){
         super.onPause();
         unregisterReceiver(messageReceiver);
+        if (receiverSmsSentRegistered){
+            unregisterReceiver(receiverSmsSent);
+            receiverSmsSentRegistered = false;
+        }
+        if (receiverSmsDeliveredRegistered){
+            unregisterReceiver(receiverSmsDelivered);
+            receiverSmsDeliveredRegistered = false;
+        }
     }
 
     private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
@@ -138,6 +152,53 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    BroadcastReceiver receiverSmsSent = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            TextView textview = (TextView) findViewById(R.id.text1);
+            switch(getResultCode())
+            {
+                case Activity.RESULT_OK:
+                    textview.setText("SMS sent");
+                    break;
+                case SmsManager.RESULT_ERROR_RADIO_OFF:
+                    textview.setText("Radio off");
+                    break;
+                case SmsManager.RESULT_ERROR_NULL_PDU:
+                    textview.setText("Null PDU");
+                    break;
+                case SmsManager.RESULT_ERROR_NO_SERVICE:
+                    textview.setText("No service");
+                    break;
+                default:
+                    textview.setText("Generic failure");
+                    break;
+            }
+            TextView buttonGetLocation = (TextView) findViewById(R.id.button_get_location);
+            buttonGetLocation.setEnabled(true);
+            unregisterReceiver(receiverSmsSent);
+            receiverSmsSentRegistered = false;
+        }
+    };
+
+    BroadcastReceiver receiverSmsDelivered = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            TextView textview = (TextView) findViewById(R.id.text1);
+            switch(getResultCode())
+            {
+                case Activity.RESULT_OK:
+                    textview.setText("SMS delivered");
+                    break;
+                default:
+                    textview.setText("SMS not delivered");
+                    break;
+            }
+            unregisterReceiver(receiverSmsDelivered);
+            receiverSmsDeliveredRegistered = false;
+        }
+    };
+
     private void sendSMS(){
         String sent = "SMS_SENT";
         String delivered = "SMS_DELIVERED";
@@ -146,56 +207,19 @@ public class MainActivity extends AppCompatActivity{
         PendingIntent deliveredPI = PendingIntent.getBroadcast(this,0,new Intent(delivered),0);
 
         // when the SMS has been sent
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                TextView textview = (TextView) findViewById(R.id.text1);
-                switch(getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        textview.setText("SMS sent");
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        textview.setText("Radio off");
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        textview.setText("Null PDU");
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        textview.setText("No service");
-                        break;
-                    default:
-                        textview.setText("Generic failure");
-                        break;
-                }
-                TextView buttonGetLocation = (TextView) findViewById(R.id.button_get_location);
-                buttonGetLocation.setEnabled(true);
-            }
-        },new IntentFilter(sent));
+        registerReceiver(receiverSmsSent,new IntentFilter(sent));
+        receiverSmsSentRegistered = true;
 
         // when the SMS has been delivered
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                TextView textview = (TextView) findViewById(R.id.text1);
-                switch(getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        textview.setText("SMS delivered");
-                        break;
-                    default:
-                        textview.setText("SMS not delivered");
-                        break;
-                }
-            }
-        },new IntentFilter(delivered));
+        registerReceiver(receiverSmsDelivered,new IntentFilter(delivered));
+        receiverSmsDeliveredRegistered = true;
 
-        String[] preferenceKeys = {"pref_key_tracker_number", "pref_key_sms_message"};
+        String[] preferenceKeys = {"pref_key_tracker_number",  "pref_key_login_user", "pref_key_login_password", "pref_key_sms_message"};
         String[] preferences = readPreferences(preferenceKeys);
 
         SmsManager sm = SmsManager.getDefault();
         String to_number = preferences[0];
-        String msg = preferences[1];
+        String msg = preferences[1] + " " + preferences[2] + " " + preferences[3];
         sm.sendTextMessage(to_number,null,msg,sentPI,deliveredPI);
     }
 
@@ -235,10 +259,12 @@ public class MainActivity extends AppCompatActivity{
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
         double latitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_latitude),"1000"));
         double longitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_longitude),"1000"));
+        int zoomLevel = sharedPref.getInt("pref_key_zoom_level",15);
 
         Intent intent = new Intent(this,MapActivity.class);
         intent.putExtra("latitude",latitude);
         intent.putExtra("longitude",longitude);
+        intent.putExtra("zoomLevel",zoomLevel);
         startActivity(intent);
     }
 

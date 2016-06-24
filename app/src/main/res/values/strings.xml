@@ -16,11 +16,31 @@
     <string name="saved_country_iso">saved_country_iso</string>
 
     <string name="pref_title_tracker_number">Tracker number</string>
-    <string name="pref_default_tracker_number"></string>
     <string name="pref_hint_tracker_number">Enter on form: 07XXXXXXXX</string>
+
+    <string-array name="pref_list_titles_sms_message">
+        <item>GPS data: 1</item>
+        <item>GPS data: 2</item>
+        <item>Tracker information</item>
+        <item>Inputs and outputs</item>
+    </string-array>
+    <string-array name="pref_list_values_sms_message">
+        <item>ggps</item>
+        <item>getgps</item>
+        <item>getinfo</item>
+        <item>getio</item>
+    </string-array>
     <string name="pref_title_sms_message">Message to send</string>
-    <string name="pref_default_sms_message">Test Message!</string>
-    <string name="pref_hint_sms_message">Any message!</string>
+    <string name="pref_default_sms_message">ggps</string>
+
+    <string name="pref_title_login_user">User name</string>
+    <string name="pref_hint_login_user">User name registered in tracker</string>
+
+    <string name="pref_title_login_password">Password</string>
+    <string name="pref_hint_login_password">Password registered in tracker</string>
+
+    <string name="pref_title_zoom_level">Map zoom</string>
+    <string name="pref_description_zoom_level">Select zoom level</string>
 
     <!-- Car Status -->
     <string name="saved_date">car_status_saved_date</string>

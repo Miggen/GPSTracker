@@ -17,6 +17,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private LatLng coordinates;
+    private int zoomLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Bundle args = getIntent().getExtras();
         coordinates = new LatLng(args.getDouble("latitude"),
                 args.getDouble("longitude"));
+        zoomLevel = args.getInt("zoomLevel");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -53,6 +55,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         mMap.addMarker(new MarkerOptions().position(coordinates).title(getString(R.string.map_title_marker)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates,15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates,zoomLevel));
     }
 }

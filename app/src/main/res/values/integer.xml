@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings -->
+    <integer name="pref_default_zoom_level">15</integer>
+    <integer name="pref_max_zoom_level">20</integer>
+    <integer name="pref_min_zoom_level">1</integer>
+</resources>
