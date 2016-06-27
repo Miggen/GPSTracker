@@ -26,6 +26,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity{
     private static final int PERMISSION_REQUEST_SEND_SMS = 1;
     private boolean receiverSmsSentRegistered = false;
     private boolean receiverSmsDeliveredRegistered = false;
+
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,22 @@ public class MainActivity extends AppCompatActivity{
             buttonViewLocation.setEnabled(false);
         }
 
+        addListenerOnSpinnerItemSelection();
+    }
+
+    private void addListenerOnSpinnerItemSelection(){
+        spinner = (Spinner) findViewById(R.id.spinner_main);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateInformationFragment();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void initialSetup(){
@@ -270,7 +290,11 @@ public class MainActivity extends AppCompatActivity{
 
     private void updateInformationFragment(){
         // Update fragment with new args
+        Bundle args = new Bundle();
+        args.putString("Selected View",spinner.getSelectedItem().toString());
+
         CarInformationFragment newFragment = new CarInformationFragment();
+        newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.car_status_container, newFragment);
         transaction.addToBackStack(null);

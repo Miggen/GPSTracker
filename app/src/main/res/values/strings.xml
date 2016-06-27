@@ -11,6 +11,13 @@
     <string name="filter_message_received">se.simulator.findmycar_gpstracker.filter_message_received</string>
     <string name="default_country_iso">SE</string>
     <!-- Main -->
+    <string name="spinner_prompt_main">Choose view</string>
+    <string-array name="spinner_entries_main">
+        <item>GPS data 1</item>
+        <item>GPS data 2</item>
+        <item>Tracker information</item>
+        <item>Inputs and outputs</item>
+    </string-array>
 
     <!-- Settings -->
     <string name="saved_country_iso">saved_country_iso</string>
