@@ -38,7 +38,10 @@
         <item>getio</item>
     </string-array>
     <string name="pref_title_sms_message">Message to send</string>
-    <string name="pref_default_sms_message">ggps</string>
+    <string-array name="pref_default_sms_message">
+        <item>ggps</item>
+        <item>getgps</item>
+    </string-array>
 
     <string name="pref_title_login_user">User name</string>
     <string name="pref_hint_login_user">User name registered in tracker</string>

@@ -12,15 +12,15 @@
             android:singleLine="true"
             android:title="@string/pref_title_tracker_number" />
 
-        <ListPreference
-            android:defaultValue="@string/pref_default_sms_message"
+        <MultiSelectListPreference
+            android:dialogTitle="@string/pref_title_sms_message"
+            android:key="pref_key_sms_message"
+            android:summary=""
+            android:title="@string/pref_title_sms_message"
             android:entries="@array/pref_list_titles_sms_message"
             android:entryValues="@array/pref_list_values_sms_message"
-            android:key="pref_key_sms_message"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            android:title="@string/pref_title_sms_message"
-            android:summary="%s"/>
+            android:defaultValue="@array/pref_default_sms_message"
+            />
 
         <se.simulator.findmycar_gpstracker.AutoSummaryEditTextPreference
             android:hint="@string/pref_hint_login_user"

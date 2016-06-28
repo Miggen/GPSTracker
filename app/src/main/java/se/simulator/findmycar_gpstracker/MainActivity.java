@@ -30,6 +30,9 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class MainActivity extends AppCompatActivity{
     private static final int PERMISSION_REQUEST_SEND_SMS = 1;
@@ -76,6 +79,13 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void addListenerOnSpinnerItemSelection(){
+        /**
+         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
+         for (String s : sharedPref.getStringSet("pref_key_sms_message",new HashSet<String>())) {
+         Log.e("Test", "getLocation: " + s);
+         }
+         */
+
         spinner = (Spinner) findViewById(R.id.spinner_main);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -234,12 +244,14 @@ public class MainActivity extends AppCompatActivity{
         registerReceiver(receiverSmsDelivered,new IntentFilter(delivered));
         receiverSmsDeliveredRegistered = true;
 
-        String[] preferenceKeys = {"pref_key_tracker_number",  "pref_key_login_user", "pref_key_login_password", "pref_key_sms_message"};
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
+        String[] preferenceKeys = {"pref_key_tracker_number",  "pref_key_login_user", "pref_key_login_password"};
         String[] preferences = readPreferences(preferenceKeys);
 
         SmsManager sm = SmsManager.getDefault();
-        String to_number = preferences[0];
-        String msg = preferences[1] + " " + preferences[2] + " " + preferences[3];
+        String to_number = sharedPref.getString("pref_key_tracker_number","");
+        String msg = sharedPref.getString("pref_key_login_user","") + " " +
+                sharedPref.getString("pref_key_login_password","") + " " + spinner.getSelectedItem().toString();
         sm.sendTextMessage(to_number,null,msg,sentPI,deliveredPI);
     }
 
@@ -289,21 +301,29 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void updateInformationFragment(){
-        // Update fragment with new args
-        Bundle args = new Bundle();
-        args.putString("Selected View",spinner.getSelectedItem().toString());
 
-        CarInformationFragment newFragment = new CarInformationFragment();
-        newFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.car_status_container, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+            // Update fragment with new args
+            Bundle args = new Bundle();
+            args.putString("Selected View", spinner.getSelectedItem().toString());
+
+            CarInformationFragment newFragment = new CarInformationFragment();
+            newFragment.setArguments(args);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.car_status_container, newFragment);
+            transaction.addToBackStack(null);
+        try {
+            transaction.commit();
+        }
+        catch(Exception e){
+            Log.e("Fragment commit", "updateInformationFragment: Unable to commit fragment");
+            // Do nothing.
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+        super.onSaveInstanceState(outState);
         //No call for super(). Bug on API Level > 11.
     }
-
 }
