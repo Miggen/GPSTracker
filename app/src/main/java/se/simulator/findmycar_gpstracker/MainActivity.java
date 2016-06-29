@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -26,10 +28,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,8 +43,12 @@ public class MainActivity extends AppCompatActivity{
     private static final int PERMISSION_REQUEST_SEND_SMS = 1;
     private boolean receiverSmsSentRegistered = false;
     private boolean receiverSmsDeliveredRegistered = false;
+    private ListItem spinnerItem;
 
     Spinner spinner;
+    SpinAdapter spinnerAdapter;
+
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +58,9 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
         PreferenceManager.setDefaultValues(this,getString(R.string.pref_file_key),MODE_PRIVATE,R.xml.pref_general,false);
+        sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
 
         //Check button states
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
         if (sharedPref.getString("pref_key_tracker_number","").isEmpty())
         {
             TextView buttonGetLocation = (TextView) findViewById(R.id.button_get_location);
@@ -75,21 +84,43 @@ public class MainActivity extends AppCompatActivity{
             buttonViewLocation.setEnabled(false);
         }
 
-        addListenerOnSpinnerItemSelection();
+        addSpinner();
     }
 
-    private void addListenerOnSpinnerItemSelection(){
-        /**
-         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
-         for (String s : sharedPref.getStringSet("pref_key_sms_message",new HashSet<String>())) {
-         Log.e("Test", "getLocation: " + s);
-         }
-         */
+    private void addSpinner(){
 
+        Set<String> smsMessageSet = sharedPref.getStringSet("pref_key_sms_message",new HashSet<String>());
+        String[] smsMessageValues = smsMessageSet.toArray(new String[smsMessageSet.size()]);
+
+        final ListItem[] spinnerItems = new ListItem[smsMessageValues.length];
+        int indexSpinnerItems = 0;
+        int indexReferenceList = 0;
+         for (String value : getResources().getStringArray(R.array.pref_list_values_sms_message)) {
+             if (Arrays.asList(smsMessageValues).indexOf(value) != -1) {
+                 spinnerItems[indexSpinnerItems] = new ListItem(value, getResources().getStringArray(R.array.pref_list_titles_sms_message)[indexReferenceList]);
+                 indexSpinnerItems++;
+             }
+             indexReferenceList++;
+         }
+
+        spinnerAdapter = new SpinAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerItems);
+        if (spinnerItems.length > 0) {
+            spinnerItem = spinnerItems[sharedPref.getInt("spinner_main_position", 0)];
+        }
+        else
+        {
+            spinnerItem = new ListItem();
+        }
         spinner = (Spinner) findViewById(R.id.spinner_main);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setSelection(sharedPref.getInt("spinner_main_position",0));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                spinnerItem = spinnerAdapter.getItem(position);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt("spinner_main_position",position);
+                editor.commit();
                 updateInformationFragment();
             }
 
@@ -244,20 +275,18 @@ public class MainActivity extends AppCompatActivity{
         registerReceiver(receiverSmsDelivered,new IntentFilter(delivered));
         receiverSmsDeliveredRegistered = true;
 
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
         String[] preferenceKeys = {"pref_key_tracker_number",  "pref_key_login_user", "pref_key_login_password"};
         String[] preferences = readPreferences(preferenceKeys);
 
         SmsManager sm = SmsManager.getDefault();
         String to_number = sharedPref.getString("pref_key_tracker_number","");
         String msg = sharedPref.getString("pref_key_login_user","") + " " +
-                sharedPref.getString("pref_key_login_password","") + " " + spinner.getSelectedItem().toString();
+                sharedPref.getString("pref_key_login_password","") + " " + spinnerItem.getId();
         sm.sendTextMessage(to_number,null,msg,sentPI,deliveredPI);
     }
 
     private String[] readPreferences(String[] preferenceKeys){
         String[] preferences = new String[preferenceKeys.length];
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
         for (int i = 0; i < preferenceKeys.length; i++) {
             preferences[i] = sharedPref.getString(preferenceKeys[i],"");
         }
@@ -288,7 +317,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void viewLocation(View view) {
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
         double latitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_latitude),"1000"));
         double longitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_longitude),"1000"));
         int zoomLevel = sharedPref.getInt("pref_key_zoom_level",15);
@@ -304,7 +332,7 @@ public class MainActivity extends AppCompatActivity{
 
             // Update fragment with new args
             Bundle args = new Bundle();
-            args.putString("Selected View", spinner.getSelectedItem().toString());
+            args.putString("Selected View", spinnerItem.getId());
 
             CarInformationFragment newFragment = new CarInformationFragment();
             newFragment.setArguments(args);

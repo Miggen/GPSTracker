@@ -41,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public static class SettingsFragment extends PreferenceFragment{
+    public static class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,25 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.pref_general);
         }
 
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key){
+            if (key.equals("pref_key_sms_message")){
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("spinner_main_position",0);
+                editor.commit();
+            }
+        }
+
+        @Override
+        public void onResume(){
+            super.onResume();
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onPause(){
+            super.onPause();
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
 
     }
 }
