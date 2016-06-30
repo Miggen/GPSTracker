@@ -67,11 +67,30 @@
     <string name="pref_description_zoom_level">Select zoom level</string>
 
     <!-- Car Status -->
-    <string name="saved_date">car_status_saved_date</string>
-    <string name="saved_time">car_status_saved_time</string>
-    <string name="saved_speed">car_status_saved_speed</string>
-    <string name="saved_latitude">car_status_saved_latitude</string>
-    <string name="saved_longitude">car_status_saved_longitude</string>
+    <!-- ggps -->
+    <string name="ggps_saved_coordinate_state">ggps_saved_coordinate_state</string>
+    <string name="ggps_saved_date">ggps_saved_date</string>
+    <string name="ggps_saved_time">ggps_saved_time</string>
+    <string name="ggps_saved_speed">ggps_saved_speed</string>
+    <string name="ggps_saved_latitude">ggps_saved_latitude</string>
+    <string name="ggps_saved_longitude">ggps_saved_longitude</string>
+    <!-- getgps -->
+    <string name="getgps_saved_coordinate_state">getgps_saved_coordinate_state</string>
+    <string name="getgps_saved_gps_state">getgps_saved_gps_state</string>
+    <string name="getgps_saved_satellites">getgps_saved_satellites</string>
+    <string name="getgps_saved_latitude">getgps_saved_latitude</string>
+    <string name="getgps_saved_longitude">getgps_saved_longitude</string>
+    <string name="getgps_saved_altitude">getgps_saved_altitude</string>
+    <string name="getgps_saved_speed">getgps_saved_speed</string>
+    <string name="getgps_saved_direction">getgps_saved_direction</string>
+    <string name="getgps_saved_date">getgps_saved_date</string>
+    <string name="getgps_saved_time">getgps_saved_time</string>
+    <!-- getio -->
+    <string name="getio_saved_digital_inputs">getio_saved_digital_inputs</string>
+    <string name="getio_saved_analog_inputs">getio_saved_analog_inputs</string>
+    <string name="getio_saved_digital_outputs">getio_saved_digital_outputs</string>
+
+
 
     <!-- Car Information Fragment -->
     <string name="carinformationfragment_text_date">Date:\u0009\u0009\u0009\u0009\u0009\u0009\u0009</string>

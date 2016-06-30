@@ -69,21 +69,6 @@ public class MainActivity extends AppCompatActivity{
             initialSetup();
         }
 
-        String latitudeString = sharedPref.getString(getString(R.string.saved_latitude),"");
-        String longitudeString = sharedPref.getString(getString(R.string.saved_longitude),"");
-        if (!latitudeString.isEmpty() && !longitudeString.isEmpty()) {
-            double latitude = Double.parseDouble(latitudeString);
-            double longitude = Double.parseDouble(longitudeString);
-            if (!(latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180)) {
-                TextView buttonViewLocation = (TextView) findViewById(R.id.button_view_location);
-                buttonViewLocation.setEnabled(false);
-            }
-        }
-        else{
-            TextView buttonViewLocation = (TextView) findViewById(R.id.button_view_location);
-            buttonViewLocation.setEnabled(false);
-        }
-
         addSpinner();
     }
 
@@ -173,8 +158,6 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onReceive(Context context, Intent intent) {
             updateInformationFragment();
-            TextView buttonViewLocation = (TextView) findViewById(R.id.button_view_location);
-            buttonViewLocation.setEnabled(intent.getBooleanExtra("button_view_location_state",false));
         }
     };
 
@@ -317,22 +300,59 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void viewLocation(View view) {
-        double latitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_latitude),"1000"));
-        double longitude = Double.parseDouble(sharedPref.getString(getString(R.string.saved_longitude),"1000"));
-        int zoomLevel = sharedPref.getInt("pref_key_zoom_level",15);
+        String spinnerId = spinnerItem.getId();
+        double latitude;
+        double longitude;
+        int zoomLevel;
+        Intent intent;
 
-        Intent intent = new Intent(this,MapActivity.class);
-        intent.putExtra("latitude",latitude);
-        intent.putExtra("longitude",longitude);
-        intent.putExtra("zoomLevel",zoomLevel);
-        startActivity(intent);
+        switch (spinnerId){
+            case "ggps":
+                latitude = Double.parseDouble(sharedPref.getString(getString(R.string.ggps_saved_latitude),"1000"));
+                longitude = Double.parseDouble(sharedPref.getString(getString(R.string.ggps_saved_longitude),"1000"));
+                zoomLevel = sharedPref.getInt("pref_key_zoom_level",15);
+
+                intent = new Intent(this,MapActivity.class);
+                intent.putExtra("latitude",latitude);
+                intent.putExtra("longitude",longitude);
+                intent.putExtra("zoomLevel",zoomLevel);
+                startActivity(intent);
+                break;
+            case "getgps":
+                latitude = Double.parseDouble(sharedPref.getString(getString(R.string.getgps_saved_latitude),"1000"));
+                longitude = Double.parseDouble(sharedPref.getString(getString(R.string.getgps_saved_longitude),"1000"));
+                zoomLevel = sharedPref.getInt("pref_key_zoom_level",15);
+
+                intent = new Intent(this,MapActivity.class);
+                intent.putExtra("latitude",latitude);
+                intent.putExtra("longitude",longitude);
+                intent.putExtra("zoomLevel",zoomLevel);
+                startActivity(intent);
+                break;
+        }
+
     }
 
     private void updateInformationFragment(){
 
+            TextView buttonViewLocation = (TextView) findViewById(R.id.button_view_location);
+
             // Update fragment with new args
             Bundle args = new Bundle();
-            args.putString("Selected View", spinnerItem.getId());
+            String spinnerId = spinnerItem.getId();
+            args.putString("Selected View", spinnerId);
+
+            switch (spinnerId){
+                case "ggps":
+                    buttonViewLocation.setEnabled(sharedPref.getBoolean(getString(R.string.ggps_saved_coordinate_state),false));
+                    break;
+                case "getgps":
+                    buttonViewLocation.setEnabled(sharedPref.getBoolean(getString(R.string.getgps_saved_coordinate_state),false));
+                    break;
+                default:
+                    buttonViewLocation.setEnabled(false);
+                    break;
+            }
 
             CarInformationFragment newFragment = new CarInformationFragment();
             newFragment.setArguments(args);

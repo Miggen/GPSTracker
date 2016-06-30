@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.HashSet;
+
 
 public class CarInformationFragment extends Fragment {
 
@@ -27,17 +29,33 @@ public class CarInformationFragment extends Fragment {
 
         switch (args.getString("Selected View")) {
             case "ggps":
-                text += getResources().getString(R.string.carinformationfragment_text_date) + sharedPref.getString(getString(R.string.saved_date),"") + "\n";
-                text += getResources().getString(R.string.carinformationfragment_text_time) + sharedPref.getString(getString(R.string.saved_time),"") + "\n";
-                text += getResources().getString(R.string.carinformationfragment_text_speed) + sharedPref.getString(getString(R.string.saved_speed),"") + "\n";
-                text += getResources().getString(R.string.carinformationfragment_text_latitude) + sharedPref.getString(getString(R.string.saved_latitude),"") + "\n";
-                text += getResources().getString(R.string.carinformationfragment_text_longitude) + sharedPref.getString(getString(R.string.saved_longitude),"") + "\n";
+                text += getResources().getString(R.string.carinformationfragment_text_date) + sharedPref.getString(getString(R.string.ggps_saved_date),"") + "\n";
+                text += getResources().getString(R.string.carinformationfragment_text_time) + sharedPref.getString(getString(R.string.ggps_saved_time),"") + "\n";
+                text += getResources().getString(R.string.carinformationfragment_text_speed) + sharedPref.getString(getString(R.string.ggps_saved_speed),"") + "\n";
+                text += getResources().getString(R.string.carinformationfragment_text_latitude) + sharedPref.getString(getString(R.string.ggps_saved_latitude),"") + "\n";
+                text += getResources().getString(R.string.carinformationfragment_text_longitude) + sharedPref.getString(getString(R.string.ggps_saved_longitude),"") + "\n";
                 break;
             case "getgps":
-                text += "Test : GPS data 2";
+                text += sharedPref.getBoolean(getString(R.string.getgps_saved_gps_state),false) + "\n";
+                text += sharedPref.getString(getString(R.string.getgps_saved_satellites),"") + "\n";
+                text += sharedPref.getString(getString(R.string.getgps_saved_latitude),"") + "\n";
+                text += sharedPref.getString(getString(R.string.getgps_saved_longitude),"") + "\n";
+                text += sharedPref.getString(getString(R.string.getgps_saved_altitude),"") + "\n";
+                text += sharedPref.getString(getString(R.string.getgps_saved_speed),"") + "\n";
+                text += sharedPref.getString(getString(R.string.getgps_saved_direction),"") + "\n";
+                text += sharedPref.getString(getString(R.string.getgps_saved_date),"") + "\n";
+                text += sharedPref.getString(getString(R.string.getgps_saved_time),"") + "\n";
                 break;
-            case "getinfo":
-                text += "Test : Tracker information";
+            case "getio":
+                for (String str:sharedPref.getStringSet(getString(R.string.getio_saved_digital_inputs),new HashSet<String>())) {
+                    text += str + "\n";
+                }
+                for (String str:sharedPref.getStringSet(getString(R.string.getio_saved_analog_inputs),new HashSet<String>())) {
+                    text += str + "\n";
+                }
+                for (String str:sharedPref.getStringSet(getString(R.string.getio_saved_digital_outputs),new HashSet<String>())) {
+                    text += str + "\n";
+                }
                 break;
         }
 
