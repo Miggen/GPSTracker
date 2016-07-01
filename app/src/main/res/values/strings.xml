@@ -86,18 +86,64 @@
     <string name="getgps_saved_date">getgps_saved_date</string>
     <string name="getgps_saved_time">getgps_saved_time</string>
     <!-- getio -->
+    <string name="getio_saved_date_updated">getstatus_saved_date_updated</string>
+    <string name="getio_saved_time_updated">getstatus_saved_time_updated</string>
     <string name="getio_saved_digital_inputs">getio_saved_digital_inputs</string>
     <string name="getio_saved_analog_inputs">getio_saved_analog_inputs</string>
     <string name="getio_saved_digital_outputs">getio_saved_digital_outputs</string>
-
-
+    <!-- getstatus -->
+    <string name="getstatus_saved_date_updated">getstatus_saved_date_updated</string>
+    <string name="getstatus_saved_time_updated">getstatus_saved_time_updated</string>
+    <string name="getstatus_saved_data_link_status">getstatus_saved_data_link_status</string>
+    <string name="getstatus_saved_gprs_status">getstatus_saved_gprs_status</string>
+    <string name="getstatus_saved_phone_status">getstatus_saved_phone_status</string>
+    <string name="getstatus_saved_sim_status">getstatus_saved_sim_status</string>
+    <string name="getstatus_saved_operator_id">getstatus_saved_operator_id</string>
+    <string name="getstatus_saved_signal_quality">getstatus_saved_signal_quality</string>
+    <string name="getstatus_saved_new_sms">getstatus_saved_new_sms</string>
+    <string name="getstatus_saved_roaming">getstatus_saved_roaming</string>
+    <string name="getstatus_saved_sms_full">getstatus_saved_sms_full</string>
+    <string name="getstatus_saved_GSM_tower_location_area_code">getstatus_saved_GSM_tower_location_area_code</string>
+    <string name="getstatus_saved_GSM_tower_cell_id">getstatus_saved_GSM_tower_cell_id</string>
 
     <!-- Car Information Fragment -->
-    <string name="carinformationfragment_text_date">Date:\u0009\u0009\u0009\u0009\u0009\u0009\u0009</string>
-    <string name="carinformationfragment_text_time">Time:\u0009 \u0009\u0009\u0009\u0009\u0009</string>
-    <string name="carinformationfragment_text_speed">Speed:\u0009\u0009\u0009\u0009\u0009</string>
-    <string name="carinformationfragment_text_latitude">Latitude:\u0009\u0009\u0009</string>
-    <string name="carinformationfragment_text_longitude">Longitude:\u0009\u0009 </string>
+    <!-- ggps -->
+    <string name="ggps_text_date">Date:</string>
+    <string name="ggps_text_time">Time:</string>
+    <string name="ggps_text_speed">Speed:</string>
+    <string name="ggps_text_latitude">Latitude:</string>
+    <string name="ggps_text_longitude">Longitude:</string>
+    <!-- getgps -->
+    <string name="getgps_text_date">Date:</string>
+    <string name="getgps_text_time">Time:</string>
+    <string name="getgps_text_speed">Speed:</string>
+    <string name="getgps_text_latitude">Latitude:</string>
+    <string name="getgps_text_longitude">Longitude:</string>
+    <string name="getgps_text_altitude">Altitude:</string>
+    <string name="getgps_text_direction">Direction:</string>
+    <string name="getgps_text_gps_state">GPS operational:</string>
+    <string name="getgps_text_satellites">Number of satellites:</string>
+    <string name="getgps_text_coordinate_state">Valid GPS data:</string>
+    <!-- getio -->
+    <string name="getio_text_date">Date:</string>
+    <string name="getio_text_time">Time:</string>
+    <string name="getio_text_digital_inputs">Digital input</string>
+    <string name="getio_text_analog_inputs">Analog input</string>
+    <string name="getio_text_digital_outputs">Digital output</string>
+    <!-- getstatus -->
+    <string name="getstatus_text_date_updated">Date:</string>
+    <string name="getstatus_text_time_updated">Time:</string>
+    <string name="getstatus_text_data_link_status">Data Link status:</string>
+    <string name="getstatus_text_gprs_status">GPRS status:</string>
+    <string name="getstatus_text_phone_status">Phone status:</string>
+    <string name="getstatus_text_sim_status">SIM status:</string>
+    <string name="getstatus_text_operator_id">Operator ID:</string>
+    <string name="getstatus_text_signal_quality">Signal quality</string>
+    <string name="getstatus_text_new_sms">Received new SMS:</string>
+    <string name="getstatus_text_roaming">Roaming:</string>
+    <string name="getstatus_text_sms_full">SMS storage full:</string>
+    <string name="getstatus_text_GSM_tower_location_area_code">Location area code:</string>
+    <string name="getstatus_text_GSM_tower_cell_id">GSM tower ID:</string>
 
     <!-- Map -->
     <string name="map_title_marker">Here is your car.</string>

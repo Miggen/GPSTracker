@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -15,10 +16,16 @@ import android.text.format.Time;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TimeZone;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 
@@ -58,6 +65,9 @@ public class SmsReceiver extends BroadcastReceiver {
                                 break;
                             case "getio":
                                 handleSmsgetio(msgsBody + " ",editor,context);
+                                break;
+                            case "getstatus":
+                                handleSmsgetstatus(msgsBody + " ",editor,context);
                                 break;
                         }
 
@@ -235,35 +245,58 @@ public class SmsReceiver extends BroadcastReceiver {
     private void handleSmsgetio(String msgsBody, SharedPreferences.Editor editor, Context context){
         int startIndex;
         int endIndex = 0;
+
+        //Set Date & Time updated to current date & time
+        Calendar calendar = new GregorianCalendar();
+        editor.putString(context.getString(R.string.getio_saved_date_updated),String.format("%02d/%02d/%02d",
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH)+1,
+                calendar.get(Calendar.DATE)));
+
+        if (calendar.get(Calendar.AM_PM) == Calendar.AM){
+            editor.putString(context.getString(R.string.getio_saved_time_updated),String.format("%02d:%02d:%02d",
+                    calendar.get(Calendar.HOUR),
+                    calendar.get(Calendar.MINUTE),
+                    calendar.get(Calendar.SECOND)));
+        }
+        else
+        {
+            editor.putString(context.getString(R.string.getio_saved_time_updated),String.format("%02d:%02d:%02d",
+                    calendar.get(Calendar.HOUR)+12,
+                    calendar.get(Calendar.MINUTE),
+                    calendar.get(Calendar.SECOND)));
+        }
+
         // Get Digital Inputs
-        HashSet<String> digitalInputs = new HashSet<String>();
+        String values = "";
         startIndex = msgsBody.indexOf("DI");
         while (startIndex != -1){
             endIndex = msgsBody.indexOf(' ', startIndex);
-            digitalInputs.add(msgsBody.substring(startIndex, endIndex));
+            values += msgsBody.charAt(endIndex-1);
             startIndex = msgsBody.indexOf("DI", endIndex);
         }
-        editor.putStringSet(context.getString(R.string.getio_saved_digital_inputs),digitalInputs);
+        editor.putString(context.getString(R.string.getio_saved_digital_inputs),values);
 
         // Get Analog Inputs
-        HashSet<String> analogInputs = new HashSet<String>();
+        values = "";
         startIndex = msgsBody.indexOf("AI", endIndex);
         while (startIndex != -1){
+            startIndex = msgsBody.indexOf(':',startIndex) + 1;
             endIndex = msgsBody.indexOf(' ', startIndex);
-            analogInputs.add(msgsBody.substring(startIndex, endIndex));
+            values += msgsBody.substring(startIndex,endIndex) + " ";
             startIndex = msgsBody.indexOf("AI", endIndex);
         }
-        editor.putStringSet(context.getString(R.string.getio_saved_analog_inputs),analogInputs);
+        editor.putString(context.getString(R.string.getio_saved_analog_inputs),values);
 
         // Get Analog Inputs
-        HashSet<String> digitalOutputs = new HashSet<String>();
+        values = "";
         startIndex = msgsBody.indexOf("DO", endIndex);
         while (startIndex != -1){
             endIndex = msgsBody.indexOf(' ', startIndex);
-            digitalOutputs.add(msgsBody.substring(startIndex, endIndex));
+            values += msgsBody.charAt(endIndex-1);
             startIndex = msgsBody.indexOf("DO", endIndex);
         }
-        editor.putStringSet(context.getString(R.string.getio_saved_digital_outputs),digitalOutputs);
+        editor.putString(context.getString(R.string.getio_saved_digital_outputs),values);
 
         // Commit changes
         editor.commit();
@@ -274,21 +307,93 @@ public class SmsReceiver extends BroadcastReceiver {
         context.sendBroadcast(updateIntent);
     }
 
-    private int occurrences(String msgsBody, String searchTerm){
+    private void handleSmsgetstatus(String msgsBody, SharedPreferences.Editor editor, Context context){
+        int startIndex;
+        int endIndex;
 
-        if (msgsBody == null){
-            return 0;
+        //Set Date & Time updated to current date & time
+        Calendar calendar = new GregorianCalendar();
+        editor.putString(context.getString(R.string.getstatus_saved_date_updated),String.format("%02d/%02d/%02d",
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH)+1,
+                calendar.get(Calendar.DATE)));
+
+        if (calendar.get(Calendar.AM_PM) == Calendar.AM){
+            editor.putString(context.getString(R.string.getstatus_saved_time_updated),String.format("%02d:%02d:%02d",
+                    calendar.get(Calendar.HOUR),
+                    calendar.get(Calendar.MINUTE),
+                    calendar.get(Calendar.SECOND)));
+        }
+        else
+        {
+            editor.putString(context.getString(R.string.getstatus_saved_time_updated),String.format("%02d:%02d:%02d",
+                    calendar.get(Calendar.HOUR)+12,
+                    calendar.get(Calendar.MINUTE),
+                    calendar.get(Calendar.SECOND)));
         }
 
-        int number = 0;
-        int index = msgsBody.indexOf(searchTerm);
+        //Get Data Link status
+        startIndex = msgsBody.indexOf("Data Link: ") + 11;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putBoolean(context.getString(R.string.getstatus_saved_data_link_status), msgsBody.substring(startIndex, endIndex).equals("1"));
 
-        while(index != -1){
-            number++;
-            index = msgsBody.indexOf(searchTerm,index + 1);
-        }
+        //Get GPRS status
+        startIndex = msgsBody.indexOf("GPRS: ",endIndex) + 6;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putBoolean(context.getString(R.string.getstatus_saved_gprs_status), msgsBody.substring(startIndex, endIndex).equals("1"));
 
-        return number;
+        //Get Phone status
+        startIndex = msgsBody.indexOf("Phone: ",endIndex) + 7;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putInt(context.getString(R.string.getstatus_saved_phone_status), Integer.parseInt(msgsBody.substring(startIndex, endIndex)));
+
+        //Get SIM status
+        startIndex = msgsBody.indexOf("SIM: ",endIndex) + 5;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putInt(context.getString(R.string.getstatus_saved_sim_status), Integer.parseInt(msgsBody.substring(startIndex, endIndex)));
+
+        //Get Operator
+        startIndex = msgsBody.indexOf("OP: ",endIndex) + 4;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putInt(context.getString(R.string.getstatus_saved_operator_id), Integer.parseInt(msgsBody.substring(startIndex, endIndex)));
+
+        //Get Signal Quality
+        startIndex = msgsBody.indexOf("Signal: ",endIndex) + 8;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putInt(context.getString(R.string.getstatus_saved_signal_quality), Integer.parseInt(msgsBody.substring(startIndex, endIndex)));
+
+        //Check for new sms
+        startIndex = msgsBody.indexOf("NewSMS: ",endIndex) + 8;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putBoolean(context.getString(R.string.getstatus_saved_new_sms), msgsBody.substring(startIndex, endIndex).equals("1"));
+
+        //Get Roaming status
+        startIndex = msgsBody.indexOf("Roaming: ",endIndex) + 9;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putBoolean(context.getString(R.string.getstatus_saved_roaming), msgsBody.substring(startIndex, endIndex).equals("1"));
+
+        //Check SMS storage full?
+        startIndex = msgsBody.indexOf("SMSFull: ",endIndex) + 9;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putBoolean(context.getString(R.string.getstatus_saved_sms_full), msgsBody.substring(startIndex, endIndex).equals("1"));
+
+        //Get GSM Tower Location Area Code
+        startIndex = msgsBody.indexOf("LAC: ",endIndex) + 5;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putInt(context.getString(R.string.getstatus_saved_GSM_tower_location_area_code), Integer.parseInt(msgsBody.substring(startIndex, endIndex)));
+
+        //Get GSM Tower ID
+        startIndex = msgsBody.indexOf("Cell ID: ",endIndex) + 9;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putInt(context.getString(R.string.getstatus_saved_GSM_tower_cell_id), Integer.parseInt(msgsBody.substring(startIndex, endIndex)));
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
     }
 
 }
