@@ -106,6 +106,15 @@ public class MainActivity extends AppCompatActivity{
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putInt("spinner_main_position",position);
                 editor.commit();
+
+                TextView textView = (TextView) findViewById(R.id.parameter_selection_main);
+                if (spinnerItem.getId().contains("getparam")){
+                    textView.setVisibility(TextView.VISIBLE);
+                }
+                else{
+                    textView.setVisibility(TextView.GONE);
+                }
+
                 updateInformationFragment();
             }
 

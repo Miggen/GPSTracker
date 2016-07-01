@@ -69,6 +69,21 @@ public class SmsReceiver extends BroadcastReceiver {
                             case "getstatus":
                                 handleSmsgetstatus(msgsBody + " ",editor,context);
                                 break;
+                            case "getweektime":
+                                handleSmsgetweektime(msgsBody + " ",editor,context);
+                                break;
+                            case "getops":
+                                handleSmsgetops(msgsBody + " ",editor,context);
+                                break;
+                            case "getcfgtime":
+                                handleSmsgetcfgtime(msgsBody + " ",editor,context);
+                                break;
+                            case "getver":
+                                handleSmsgetver(msgsBody + " ",editor,context);
+                                break;
+                            case "getinfo":
+                                handleSmsgetinfo(msgsBody + " ",editor,context);
+                                break;
                         }
 
                     }
@@ -83,7 +98,7 @@ public class SmsReceiver extends BroadcastReceiver {
             return "";
         }
         CharSequence[] searchterms = {"Data Link:", "Clock Sync:", ")", "Last Configuration was performed on:",
-                "GPS:", "Url:", "Code Ver:", "INI:", "DI", "I/O ID:", "Digital Outputs are set to:", "Text:",
+                "Lat:", "Url:", "Code Ver:", "INI:", "DI", "I/O ID:", "Digital Outputs are set to:", "Text:",
                 "New Text:", "OPS", "OPS PART", "FLUSH", "Static Nav is", "00000.00s.0.000", "BLog:", "LVCAN ProgNum:", "Prog:"};
         String[] returnterms = {"getstatus", "getweektime", "getops", "getcfgtime", "getgps", "ggps",
                 "getver", "getinfo", "getio", "readio", "setdigout", "getparam", "setparam", "getparam 1271",
@@ -396,4 +411,339 @@ public class SmsReceiver extends BroadcastReceiver {
         context.sendBroadcast(updateIntent);
     }
 
+    private void handleSmsgetweektime(String msgsBody, SharedPreferences.Editor editor, Context context){
+        int startIndex;
+        int endIndex;
+
+        //Get Clock Sync
+        startIndex = msgsBody.indexOf("Clock Sync: ") + 12;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putBoolean(context.getString(R.string.getweektime_saved_clock_sync), msgsBody.substring(startIndex, endIndex).equals("1"));
+
+        //Get Day of Week
+        startIndex = msgsBody.indexOf("DOW: ",endIndex) + 5;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putInt(context.getString(R.string.getweektime_saved_day_of_week), Integer.parseInt(msgsBody.substring(startIndex, endIndex)));
+
+        // Get Time
+        TimeZone timezone = TimeZone.getDefault();
+        Date currentDate = new Date();
+        int time = timezone.getOffset(currentDate.getTime());  // Get time zone offset
+        startIndex = msgsBody.indexOf("Time ", endIndex) + 5;
+        endIndex = msgsBody.indexOf(':', startIndex);
+        time += 3600000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex));  // Get hours
+        startIndex = endIndex + 1;
+        endIndex = msgsBody.indexOf(' ', startIndex);
+        time += 60000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex)); // Get minutes
+
+        editor.putString(context.getString(R.string.getweektime_saved_time), String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(time),
+                TimeUnit.MILLISECONDS.toMinutes(time) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time))));
+
+        //Get Week Time
+        startIndex = msgsBody.indexOf("Weektime: ",endIndex) + 10;
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putInt(context.getString(R.string.getweektime_saved_week_time), Integer.parseInt(msgsBody.substring(startIndex, endIndex)));
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
+    }
+
+    private void handleSmsgetops(String msgsBody, SharedPreferences.Editor editor, Context context){
+        int startIndex = 0;
+        int endIndex;
+
+        String operators = "";
+
+        endIndex = msgsBody.indexOf(")");
+        while (endIndex != -1){
+            operators += msgsBody.substring(startIndex,endIndex) + ':';
+            startIndex = endIndex + 3;
+            endIndex = msgsBody.indexOf(")",startIndex-2);
+        }
+
+        editor.putString(context.getString(R.string.getops_saved_operators),operators);
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
+    }
+
+    private void handleSmsgetcfgtime(String msgsBody, SharedPreferences.Editor editor, Context context){
+        int startIndex;
+        int endIndex;
+
+        //Get Last configuration Date
+        startIndex = msgsBody.indexOf("Last Configuration was performed on: ") + "Last Configuration was performed on: ".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getcfgtime_saved_date), msgsBody.substring(startIndex, endIndex));
+
+        // Get Last configuration Time
+        TimeZone timezone = TimeZone.getDefault();
+        Date currentDate = new Date();
+        int time = timezone.getOffset(currentDate.getTime());  // Get time zone offset
+        startIndex = endIndex + 1;
+        endIndex = msgsBody.indexOf(':', startIndex);
+        time += 3600000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex));  // Get hours
+        startIndex = endIndex + 1;
+        endIndex = msgsBody.indexOf(':', startIndex);
+        time += 60000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex)); // Get minutes
+        startIndex = endIndex + 1;
+        endIndex = msgsBody.indexOf(' ', startIndex);
+        time += 1000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex)); // Get seconds
+
+        editor.putString(context.getString(R.string.getcfgtime_saved_time), String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(time),
+                TimeUnit.MILLISECONDS.toMinutes(time) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time)),
+                TimeUnit.MILLISECONDS.toSeconds(time) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time))));
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
+    }
+
+    private void handleSmsgetver(String msgsBody, SharedPreferences.Editor editor, Context context){
+        int startIndex;
+        int endIndex;
+
+        //Get Firmware version
+        startIndex = msgsBody.indexOf("Code Ver:") + "Code Ver:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getver_saved_firmware_version), msgsBody.substring(startIndex, endIndex));
+
+        //Get Firmware revision
+        startIndex = msgsBody.indexOf("Rev:",endIndex) + "Rev:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getver_saved_firmware_revision), msgsBody.substring(startIndex, endIndex));
+
+        //Get Device IMEI
+        startIndex = msgsBody.indexOf("Device IMEI:",endIndex) + "Device IMEI:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getver_saved_IMEI), msgsBody.substring(startIndex, endIndex));
+
+        //Get Device ID
+        startIndex = msgsBody.indexOf("Device ID:",endIndex) + "Device ID:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getver_saved_device_id), msgsBody.substring(startIndex, endIndex));
+
+        //Get Bootloader version
+        startIndex = msgsBody.indexOf("Bootloader Ver:",endIndex) + "Bootloader Ver:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getver_saved_bootloader_version), msgsBody.substring(startIndex, endIndex));
+
+        //Get Modem Application version
+        startIndex = msgsBody.indexOf("Modem APP Ver:",endIndex) + "Modem APP Ver:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getver_saved_modem_app_version), msgsBody.substring(startIndex, endIndex));
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
+    }
+
+    private void handleSmsgetinfo(String msgsBody, SharedPreferences.Editor editor, Context context){
+        int startIndex;
+        int endIndex;
+
+        //Get Device initialization Date
+        startIndex = msgsBody.indexOf("INI:") + "INI:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        String date = msgsBody.substring(startIndex, endIndex);
+
+        // Get Device initialization Time
+        TimeZone timezone = TimeZone.getDefault();
+        Date currentDate = new Date();
+        int time = timezone.getOffset(currentDate.getTime());  // Get time zone offset
+        startIndex = endIndex + 1;
+        endIndex = msgsBody.indexOf(':', startIndex);
+        time += 3600000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex));  // Get hours
+        startIndex = endIndex + 1;
+        endIndex = msgsBody.indexOf(' ', startIndex);
+        time += 60000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex)); // Get minutes
+
+        editor.putString(context.getString(R.string.getinfo_saved_device_initialization_time),
+                date + " " +
+                        String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(time),
+                TimeUnit.MILLISECONDS.toMinutes(time) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time))));
+
+        //Get RTC Date
+        startIndex = msgsBody.indexOf("RTC:",endIndex) + "RTC:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        date = msgsBody.substring(startIndex, endIndex);
+
+        // Get RTC Time
+        time = timezone.getOffset(currentDate.getTime());  // Get time zone offset
+        startIndex = endIndex + 1;
+        endIndex = msgsBody.indexOf(':', startIndex);
+        time += 3600000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex));  // Get hours
+        startIndex = endIndex + 1;
+        endIndex = msgsBody.indexOf(' ', startIndex);
+        time += 60000 * Integer.parseInt(msgsBody.substring(startIndex, endIndex)); // Get minutes
+
+        editor.putString(context.getString(R.string.getinfo_saved_RTC_time),
+                date + " " +
+                        String.format("%02d:%02d",
+                                TimeUnit.MILLISECONDS.toHours(time),
+                                TimeUnit.MILLISECONDS.toMinutes(time) -
+                                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time))));
+
+        //Get Restart counter
+        startIndex = msgsBody.indexOf("RST:",endIndex) + "RST:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_restart_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get Error counter
+        startIndex = msgsBody.indexOf("ERR:",endIndex) + "ERR:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_error_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get sent records counter
+        startIndex = msgsBody.indexOf("SR:",endIndex) + "SR:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_sent_records_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get broken records counter
+        startIndex = msgsBody.indexOf("BR:",endIndex) + "BR:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_broken_records_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get CRC fail counter
+        startIndex = msgsBody.indexOf("CF:",endIndex) + "CF:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_CRC_failed_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get GPRS failed counter
+        startIndex = msgsBody.indexOf("FG:",endIndex) + "FG:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_GPRS_failed_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get link failed counter
+        startIndex = msgsBody.indexOf("FL:",endIndex) + "FL:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_link_failed_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get UPD timeout counter
+        startIndex = msgsBody.indexOf("UT:",endIndex) + "UT:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_UPD_timeout_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get Sent SMS counter
+        startIndex = msgsBody.indexOf("SMS:",endIndex) + "SMS:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_sent_sms_counter), msgsBody.substring(startIndex, endIndex));
+
+        //Get time without GPS
+        startIndex = msgsBody.indexOf("NOGPS:",endIndex) + "NOGPS:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_noGPS_timer), msgsBody.substring(startIndex, endIndex));
+
+        //Get GPS receiver state
+        startIndex = msgsBody.indexOf("GPS:",endIndex) + "GPS:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        switch (msgsBody.substring(startIndex, endIndex)) {
+            case "0":
+                editor.putString(context.getString(R.string.getinfo_saved_GPS_state), "OFF");
+                break;
+            case "1":
+                editor.putString(context.getString(R.string.getinfo_saved_GPS_state), "restarting");
+                break;
+            case "2":
+                editor.putString(context.getString(R.string.getinfo_saved_GPS_state), "ON but no fix");
+                break;
+            case "3":
+                editor.putString(context.getString(R.string.getinfo_saved_GPS_state), "ON and operational");
+                break;
+            case "4":
+                editor.putString(context.getString(R.string.getinfo_saved_GPS_state), "sleep mode");
+                break;
+        }
+
+        //Get average number of satellites
+        startIndex = msgsBody.indexOf("SAT:",endIndex) + "SAT:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_average_satellites), msgsBody.substring(startIndex, endIndex));
+
+        //Get Reset source identification
+        startIndex = msgsBody.indexOf("RS:",endIndex) + "RS:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        switch (msgsBody.substring(startIndex, endIndex)){
+            case "1":
+                editor.putString(context.getString(R.string.getinfo_saved_reset_source_identification), "Low Power");
+                break;
+            case "2":
+                editor.putString(context.getString(R.string.getinfo_saved_reset_source_identification), "W Watchdog");
+                break;
+            case "3":
+                editor.putString(context.getString(R.string.getinfo_saved_reset_source_identification), "I Watchdog");
+                break;
+            case "4":
+                editor.putString(context.getString(R.string.getinfo_saved_reset_source_identification), "Software reset");
+                break;
+            case "5":
+                editor.putString(context.getString(R.string.getinfo_saved_reset_source_identification), "Power On");
+                break;
+            case "6":
+                editor.putString(context.getString(R.string.getinfo_saved_reset_source_identification), "Pin Reset");
+                break;
+        }
+
+        //Get data mode state
+        startIndex = msgsBody.indexOf("MD:",endIndex) + "MD:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        switch (msgsBody.substring(startIndex, endIndex)){
+            case "0":
+                editor.putString(context.getString(R.string.getinfo_saved_data_mode), "Home and Stop");
+                break;
+            case "1":
+                editor.putString(context.getString(R.string.getinfo_saved_data_mode), "Home and Moving");
+                break;
+            case "2":
+                editor.putString(context.getString(R.string.getinfo_saved_data_mode), "Roaming and Stop");
+                break;
+            case "3":
+                editor.putString(context.getString(R.string.getinfo_saved_data_mode), "Roaming and Moving");
+                break;
+            case "4":
+                editor.putString(context.getString(R.string.getinfo_saved_data_mode), "Unknown and Stop");
+                break;
+            case "5":
+                editor.putString(context.getString(R.string.getinfo_saved_data_mode), "Unknown and Moving");
+                break;
+        }
+
+        //Get number of records found
+        startIndex = msgsBody.indexOf("RF:",endIndex) + "RF:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getinfo_saved_records_found), msgsBody.substring(startIndex, endIndex));
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
+    }
 }

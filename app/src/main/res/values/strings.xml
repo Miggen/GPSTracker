@@ -105,6 +105,45 @@
     <string name="getstatus_saved_sms_full">getstatus_saved_sms_full</string>
     <string name="getstatus_saved_GSM_tower_location_area_code">getstatus_saved_GSM_tower_location_area_code</string>
     <string name="getstatus_saved_GSM_tower_cell_id">getstatus_saved_GSM_tower_cell_id</string>
+    <!-- getweektime -->
+    <string name="getweektime_saved_clock_sync">getweektime_saved_clock_sync</string>
+    <string name="getweektime_saved_day_of_week">getweektime_saved_day_of_week</string>
+    <string name="getweektime_saved_time">getweektime_saved_time</string>
+    <string name="getweektime_saved_week_time">getweektime_saved_week_time</string>
+    <!-- getops -->
+    <string name="getops_saved_operators">getops_saved_operators</string>
+    <!-- getcfgtime -->
+    <string name="getcfgtime_saved_date">getcfgtime_saved_date</string>
+    <string name="getcfgtime_saved_time">getcfgtime_saved_time</string>
+    <!-- getver -->
+    <string name="getver_saved_firmware_version">getver_saved_firmware_version</string>
+    <string name="getver_saved_IMEI">getver_saved_IMEI</string>
+    <string name="getver_saved_device_id">getver_saved_device_id</string>
+    <string name="getver_saved_bootloader_version">getver_saved_bootloader_version</string>
+    <string name="getver_saved_modem_app_version">getver_saved_modem_app_version</string>
+    <string name="getver_saved_firmware_revision">getver_saved_firmware_revision</string>
+    <!-- getinfo -->
+    <string name="getinfo_saved_device_initialization_time">getinfo_saved_device_initialization_time</string>
+    <string name="getinfo_saved_RTC_time">getinfo_saved_RTC_time</string>
+    <string name="getinfo_saved_restart_counter">getinfo_saved_restart_counter</string>
+    <string name="getinfo_saved_error_counter">getinfo_saved_error_counter</string>
+    <string name="getinfo_saved_sent_records_counter">getinfo_saved_sent_records_counter</string>
+    <string name="getinfo_saved_broken_records_counter">getinfo_saved_broken_records_counter</string>
+    <string name="getinfo_saved_CRC_failed_counter">getinfo_saved_CRC_failed_counter</string>
+    <string name="getinfo_saved_GPRS_failed_counter">getinfo_saved_GPRS_failed_counter</string>
+    <string name="getinfo_saved_link_failed_counter">getinfo_saved_link_failed_counter</string>
+    <string name="getinfo_saved_UPD_timeout_counter">getinfo_saved_UPD_timeout_counter</string>
+    <string name="getinfo_saved_sent_sms_counter">getinfo_saved_sent_sms_counter</string>
+    <string name="getinfo_saved_noGPS_timer">getinfo_saved_noGPS_timer</string>
+    <string name="getinfo_saved_GPS_state">getinfo_saved_GPS_state</string>
+    <string name="getinfo_saved_average_satellites">getinfo_saved_average_satellites</string>
+    <string name="getinfo_saved_reset_source_identification">getinfo_saved_reset_source_identification</string>
+    <string name="getinfo_saved_data_mode">getinfo_saved_data_mode</string>
+    <string name="getinfo_saved_records_found">getinfo_saved_records_found</string>
+
+
+
+
 
     <!-- Car Information Fragment -->
     <!-- ggps -->
@@ -144,6 +183,42 @@
     <string name="getstatus_text_sms_full">SMS storage full:</string>
     <string name="getstatus_text_GSM_tower_location_area_code">Location area code:</string>
     <string name="getstatus_text_GSM_tower_cell_id">GSM tower ID:</string>
+    <!-- getweektime -->
+    <string name="getweektime_text_clock_sync">Clock Sync:</string>
+    <string name="getweektime_text_day_of_week">Day of Week:</string>
+    <string name="getweektime_text_time">Time:</string>
+    <string name="getweektime_text_week_time">Time since Week Start:</string>
+    <!-- getops -->
+    <string name="getops_text_operators">Operators:</string>
+    <!-- getcfgtime -->
+    <string name="getcfgtime_text_description">Last Configuration</string>
+    <string name="getcfgtime_text_date">Date:</string>
+    <string name="getcfgtime_text_time">Time:</string>
+    <!-- getver -->
+    <string name="getver_text_firmware_version">Firmware Ver:</string>
+    <string name="getver_text_IMEI">Device IMEI:</string>
+    <string name="getver_text_device_id">Device ID:</string>
+    <string name="getver_text_bootloader_version">Bootloader Ver:</string>
+    <string name="getver_text_modem_app_version">Modem Application Ver:</string>
+    <string name="getver_text_firmware_revision">Firmware revision:</string>
+    <!-- getinfo -->
+    <string name="getinfo_text_device_initialization_time">Initialization time:</string>
+    <string name="getinfo_text_RTC_time">RTC time:</string>
+    <string name="getinfo_text_restart_counter">Restarts:</string>
+    <string name="getinfo_text_error_counter">Errors:</string>
+    <string name="getinfo_text_sent_records_counter">Sent records:</string>
+    <string name="getinfo_text_broken_records_counter">Broken records:</string>
+    <string name="getinfo_text_CRC_failed_counter">CRC Failed:</string>
+    <string name="getinfo_text_GPRS_failed_counter">Failed GPRS:</string>
+    <string name="getinfo_text_link_failed_counter">Failed links:</string>
+    <string name="getinfo_text_UPD_timeout_counter">UPD timeouts:</string>
+    <string name="getinfo_text_sent_sms_counter">SMS sent:</string>
+    <string name="getinfo_text_noGPS_timer">Time without GPS:</string>
+    <string name="getinfo_text_GPS_state">GPS state:</string>
+    <string name="getinfo_text_average_satellites">Avg satellites:</string>
+    <string name="getinfo_text_reset_source_identification">Reset Source:</string>
+    <string name="getinfo_text_data_mode">Data mode state:</string>
+    <string name="getinfo_text_records_found">Records found:</string>
 
     <!-- Map -->
     <string name="map_title_marker">Here is your car.</string>

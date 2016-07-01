@@ -123,6 +123,86 @@ public class CarInformationFragment extends Fragment {
                 textValue1 += sharedPref.getInt(getString(R.string.getstatus_saved_GSM_tower_location_area_code),0) + "\n";
                 textId1 += getResources().getString(R.string.getstatus_text_GSM_tower_cell_id)+ "\n";
                 textValue1 += sharedPref.getInt(getString(R.string.getstatus_saved_GSM_tower_cell_id),0) + "\n";
+                break;
+            case "getweektime":
+                textId1 += getResources().getString(R.string.getweektime_text_clock_sync)+ "\n";
+                textValue1 += sharedPref.getBoolean(getString(R.string.getweektime_saved_clock_sync),false) + "\n";
+                textId1 += getResources().getString(R.string.getweektime_text_day_of_week)+ "\n";
+                textValue1 += sharedPref.getInt(getString(R.string.getweektime_saved_day_of_week),0) + "\n";
+                textId1 += getResources().getString(R.string.getweektime_text_time)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getweektime_saved_time),"") + "\n";
+                textId1 += getResources().getString(R.string.getweektime_text_week_time)+ "\n";
+                textValue1 += sharedPref.getInt(getString(R.string.getweektime_saved_week_time),0) + "\n";
+                break;
+            case "getops":
+                textId1 += getResources().getString(R.string.getops_text_operators)+ "\n";
+                values = sharedPref.getString(getString(R.string.getops_saved_operators),"");
+                startIndex = 0;
+                endIndex = values.indexOf(':');
+                while (endIndex != -1){
+                   textValue1 += values.substring(startIndex,endIndex) + "\n";
+                    startIndex = endIndex + 1;
+                    endIndex = values.indexOf(':', startIndex);
+                }
+                break;
+            case "getcfgtime":
+                textId1 += getResources().getString(R.string.getcfgtime_text_description)+ "\n";
+                textValue1 += "\n";
+                textId1 += getResources().getString(R.string.getcfgtime_text_date)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getcfgtime_saved_date),"") + "\n";
+                textId1 += getResources().getString(R.string.getcfgtime_text_time)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getcfgtime_saved_time),"") + "\n";
+                break;
+            case "getver":
+                textId1 += getResources().getString(R.string.getver_text_firmware_version)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getver_saved_firmware_version),"") + "\n";
+                textId1 += getResources().getString(R.string.getver_text_firmware_revision)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getver_saved_firmware_revision),"") + "\n";
+                textId1 += getResources().getString(R.string.getver_text_IMEI)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getver_saved_IMEI),"") + "\n";
+                textId1 += getResources().getString(R.string.getver_text_device_id)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getver_saved_device_id),"") + "\n";
+                textId1 += getResources().getString(R.string.getver_text_bootloader_version)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getver_saved_bootloader_version),"") + "\n";
+                textId1 += getResources().getString(R.string.getver_text_modem_app_version)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getver_saved_modem_app_version),"") + "\n";
+                break;
+            case "getinfo":
+                textId1 += getResources().getString(R.string.getinfo_text_device_initialization_time)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_device_initialization_time),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_RTC_time)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_RTC_time),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_restart_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_restart_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_error_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_error_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_sent_records_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_sent_records_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_broken_records_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_broken_records_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_CRC_failed_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_CRC_failed_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_GPRS_failed_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_GPRS_failed_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_link_failed_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_link_failed_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_UPD_timeout_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_UPD_timeout_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_sent_sms_counter)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_sent_sms_counter),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_noGPS_timer)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_noGPS_timer),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_GPS_state)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_GPS_state),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_average_satellites)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_average_satellites),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_reset_source_identification)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_reset_source_identification),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_data_mode)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_data_mode),"") + "\n";
+                textId1 += getResources().getString(R.string.getinfo_text_records_found)+ "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_records_found),"") + "\n";
+                break;
         }
 
 

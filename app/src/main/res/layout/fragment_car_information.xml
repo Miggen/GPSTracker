@@ -1,22 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:scrollbars="vertical"
+    android:fillViewport="true"
     tools:context="se.simulator.findmycar_gpstracker.CarInformationFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingRight="16dp"
-        android:text="Long text \n More Text"
-        android:id="@+id/car_information_identifier_1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="16dp"
+            android:text=""
+            android:id="@+id/car_information_identifier_1" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Long text \n More Text"
-        android:id="@+id/car_information_value_1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text=""
+            android:id="@+id/car_information_value_1" />
+    </LinearLayout>
+</ScrollView>
 
-
-</LinearLayout>
