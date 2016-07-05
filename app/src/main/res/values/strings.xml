@@ -29,9 +29,7 @@
         <item>getver</item>
         <item>getinfo</item>
         <item>getio</item>
-        <item>getparam 1271 1</item>
-        <item>getparam 1271 2</item>
-        <item>getparam 1271 3</item>
+        <item>getparam</item>
         <item>banlist</item>
         <item>crashlog</item>
     </string-array>
@@ -45,9 +43,7 @@
         <item>getver</item>
         <item>getinfo</item>
         <item>getio</item>
-        <item>getparam 1271 1</item>
-        <item>getparam 1271 2</item>
-        <item>getparam 1271 3</item>
+        <item>getparam</item>
         <item>banlist</item>
         <item>crashlog</item>
     </string-array>

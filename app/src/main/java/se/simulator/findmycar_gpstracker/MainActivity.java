@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity{
         }
         else
         {
-            spinnerItem = new ListItem();
+            spinnerItem = new ListItem("","");
         }
         spinner = (Spinner) findViewById(R.id.spinner_main);
         spinner.setAdapter(spinnerAdapter);
@@ -269,11 +269,21 @@ public class MainActivity extends AppCompatActivity{
 
         String[] preferenceKeys = {"pref_key_tracker_number",  "pref_key_login_user", "pref_key_login_password"};
         String[] preferences = readPreferences(preferenceKeys);
+        String msg;
 
         SmsManager sm = SmsManager.getDefault();
         String to_number = sharedPref.getString("pref_key_tracker_number","");
-        String msg = sharedPref.getString("pref_key_login_user","") + " " +
-                sharedPref.getString("pref_key_login_password","") + " " + spinnerItem.getId();
+        if (spinnerItem.getId().equals("getparam")){
+            TextView textview = (TextView) findViewById(R.id.parameter_selection_main);
+            msg = sharedPref.getString("pref_key_login_user","") + " " +
+                    sharedPref.getString("pref_key_login_password","") + " " + spinnerItem.getId() +
+                    " " + textview.getText();
+        }
+        else{
+            msg = sharedPref.getString("pref_key_login_user","") + " " +
+                    sharedPref.getString("pref_key_login_password","") + " " + spinnerItem.getId();
+        }
+
         sm.sendTextMessage(to_number,null,msg,sentPI,deliveredPI);
     }
 

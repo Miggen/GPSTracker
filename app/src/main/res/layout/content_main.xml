@@ -46,7 +46,8 @@
             android:layout_height="match_parent"
             android:inputType="number"
             android:id="@+id/parameter_selection_main"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:maxLength="4"/>
     </LinearLayout>
 
     <FrameLayout
