@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -64,6 +65,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="se.simulator.findmycar_gpstracker.MainActivity" />
         </activity>
+        <activity
+            android:name=".ConfigureApplicationActivity"
+            android:label="@string/configure_application_label"></activity>
+        <activity
+            android:name=".ConfigureDeviceActivity"
+            android:label="@string/configure_device_label"></activity>
     </application>
 
 </manifest>

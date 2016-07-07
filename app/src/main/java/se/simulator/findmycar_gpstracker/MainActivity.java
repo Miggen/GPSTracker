@@ -60,21 +60,20 @@ public class MainActivity extends AppCompatActivity{
         PreferenceManager.setDefaultValues(this,getString(R.string.pref_file_key),MODE_PRIVATE,R.xml.pref_general,false);
         sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
 
-        //Check button states
-        if (sharedPref.getString("pref_key_tracker_number","").isEmpty())
-        {
-            TextView buttonGetLocation = (TextView) findViewById(R.id.button_get_location);
-            buttonGetLocation.setEnabled(false);
-
+        //if (sharedPref.getBoolean(getString(R.string.first_run),true))
+        //{
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(getString(R.string.first_run),false);
+            editor.commit();
             initialSetup();
-        }
+        //}
 
         addSpinner();
     }
 
     private void addSpinner(){
 
-        Set<String> smsMessageSet = sharedPref.getStringSet("pref_key_sms_message",new HashSet<String>());
+        Set<String> smsMessageSet = sharedPref.getStringSet(getString(R.string.pref_key_sms_message),new HashSet<String>());
         String[] smsMessageValues = smsMessageSet.toArray(new String[smsMessageSet.size()]);
 
         final ListItem[] spinnerItems = new ListItem[smsMessageValues.length];
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity{
 
         spinnerAdapter = new SpinAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerItems);
         if (spinnerItems.length > 0) {
-            spinnerItem = spinnerItems[sharedPref.getInt("spinner_main_position", 0)];
+            spinnerItem = spinnerItems[sharedPref.getInt(getString(R.string.spinner_position_main), 0)];
         }
         else
         {
@@ -98,21 +97,30 @@ public class MainActivity extends AppCompatActivity{
         }
         spinner = (Spinner) findViewById(R.id.spinner_main);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setSelection(sharedPref.getInt("spinner_main_position",0));
+        spinner.setSelection(sharedPref.getInt(getString(R.string.spinner_position_main),0));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 spinnerItem = spinnerAdapter.getItem(position);
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putInt("spinner_main_position",position);
+                editor.putInt(getString(R.string.spinner_position_main),position);
                 editor.commit();
 
-                TextView textView = (TextView) findViewById(R.id.parameter_selection_main);
-                if (spinnerItem.getId().contains("getparam")){
-                    textView.setVisibility(TextView.VISIBLE);
-                }
-                else{
-                    textView.setVisibility(TextView.GONE);
+                TextView parameterSelection = (TextView) findViewById(R.id.parameter_selection_main);
+                TextView newValue = (TextView) findViewById(R.id.new_value_main);
+                switch (spinnerItem.getId()){
+                    case "getparam":
+                        parameterSelection.setVisibility(TextView.VISIBLE);
+                        newValue.setVisibility(TextView.GONE);
+                        break;
+                    case "setparam":
+                        parameterSelection.setVisibility(TextView.VISIBLE);
+                        newValue.setVisibility(TextView.VISIBLE);
+                        break;
+                    default:
+                        parameterSelection.setVisibility(TextView.GONE);
+                        newValue.setVisibility(TextView.GONE);
+                        break;
                 }
 
                 updateInformationFragment();
@@ -126,11 +134,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initialSetup(){
-        TextView textview = (TextView) findViewById(R.id.text1);
-
-        Intent intent = new Intent(this,SettingsActivity.class);
+        Intent intent = new Intent(this,ConfigureApplicationActivity.class);
         startActivity(intent);
-        textview.setText("Enter settings for configuration");
     }
 
     @Override
@@ -267,32 +272,22 @@ public class MainActivity extends AppCompatActivity{
         registerReceiver(receiverSmsDelivered,new IntentFilter(delivered));
         receiverSmsDeliveredRegistered = true;
 
-        String[] preferenceKeys = {"pref_key_tracker_number",  "pref_key_login_user", "pref_key_login_password"};
-        String[] preferences = readPreferences(preferenceKeys);
-        String msg;
-
+        String msg = sharedPref.getString(getString(R.string.pref_key_login_user),"") + " " +
+                sharedPref.getString(getString(R.string.pref_key_login_password),"") + " " + spinnerItem.getId();
         SmsManager sm = SmsManager.getDefault();
-        String to_number = sharedPref.getString("pref_key_tracker_number","");
-        if (spinnerItem.getId().equals("getparam")){
-            TextView textview = (TextView) findViewById(R.id.parameter_selection_main);
-            msg = sharedPref.getString("pref_key_login_user","") + " " +
-                    sharedPref.getString("pref_key_login_password","") + " " + spinnerItem.getId() +
-                    " " + textview.getText();
-        }
-        else{
-            msg = sharedPref.getString("pref_key_login_user","") + " " +
-                    sharedPref.getString("pref_key_login_password","") + " " + spinnerItem.getId();
+        String to_number = sharedPref.getString(getString(R.string.pref_key_tracker_number),"");
+
+        switch (spinnerItem.getId()){
+            case "getparam":
+                msg += " " + ((TextView) findViewById(R.id.parameter_selection_main)).getText();
+                break;
+            case "setparam":
+                msg += " " + ((TextView) findViewById(R.id.parameter_selection_main)).getText();
+                msg += " " + ((TextView) findViewById(R.id.new_value_main)).getText();
+                break;
         }
 
         sm.sendTextMessage(to_number,null,msg,sentPI,deliveredPI);
-    }
-
-    private String[] readPreferences(String[] preferenceKeys){
-        String[] preferences = new String[preferenceKeys.length];
-        for (int i = 0; i < preferenceKeys.length; i++) {
-            preferences[i] = sharedPref.getString(preferenceKeys[i],"");
-        }
-        return preferences;
     }
 
     private boolean checkPermissionSMS() {
@@ -329,7 +324,7 @@ public class MainActivity extends AppCompatActivity{
             case "ggps":
                 latitude = Double.parseDouble(sharedPref.getString(getString(R.string.ggps_saved_latitude),"1000"));
                 longitude = Double.parseDouble(sharedPref.getString(getString(R.string.ggps_saved_longitude),"1000"));
-                zoomLevel = sharedPref.getInt("pref_key_zoom_level",15);
+                zoomLevel = sharedPref.getInt(getString(R.string.pref_key_zoom_level),15);
 
                 intent = new Intent(this,MapActivity.class);
                 intent.putExtra("latitude",latitude);
@@ -340,7 +335,7 @@ public class MainActivity extends AppCompatActivity{
             case "getgps":
                 latitude = Double.parseDouble(sharedPref.getString(getString(R.string.getgps_saved_latitude),"1000"));
                 longitude = Double.parseDouble(sharedPref.getString(getString(R.string.getgps_saved_longitude),"1000"));
-                zoomLevel = sharedPref.getInt("pref_key_zoom_level",15);
+                zoomLevel = sharedPref.getInt(getString(R.string.pref_key_zoom_level),15);
 
                 intent = new Intent(this,MapActivity.class);
                 intent.putExtra("latitude",latitude);

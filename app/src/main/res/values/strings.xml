@@ -10,14 +10,52 @@
     <string name="pref_file_key">se.simulator.findmycar_gpstracker.PREFERENCE_FILE_KEY</string>
     <string name="filter_message_received">se.simulator.findmycar_gpstracker.filter_message_received</string>
     <string name="default_country_iso">SE</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="ok">OK</string>
+    <string name="send">Send</string>
+    <string name="cancel">cancel</string>
+    <string name="first_run">first_run</string>
     <!-- Main -->
     <string name="spinner_prompt_main">Spinner Promt Main</string>
+    <string name="spinner_position_main">spinner_position_main</string>
+
+    <!-- Configure Application -->
+    <string name="configure_application_label">Configure Application</string>
+    <string name="configure_tracker_number_description">Number to tracker, should be provided with inserted
+        SIM-card. International number required to interact with vehicle when outside country borders.</string>
+    <string name="configure_tracker_number_title">Number Tracker:</string>
+    <string name="configure_tracker_number_hint">+46701234567</string>
+    <string name="configure_user_description">Login user name of tracker device, up to five characters, leave blank for no user name.</string>
+    <string name="configure_user_title">User Name:</string>
+    <string name="configure_user_hint">abc12</string>
+    <string name="configure_password_description">Login password of tracker device, up to five characters, leave blank for no password.
+        This password will not be encrypted and be shown in plain sight in the text message history.</string>
+    <string name="configure_password_title">Password:</string>
+    <string name="configure_password_hint">123ab</string>
+    <string name="configure_user_number_description">Number to tracker, should be provided with inserted
+        SIM-card. Domestic number required.</string>
+    <string name="configure_user_number_title">Number User:</string>
+    <string name="configure_user_number_hint">0701234567</string>
+    <string name="configure_button_get_number_label">Get Number</string>
+    <string name="configure_no_number_toast">This application require a tracker number to work, the number can later be changed in Settings.</string>
+    <string name="open_configure_device_description">Do you wish to configure the tracker device?</string>
+
+
+    <!-- Configure Device -->
+    <string name="configure_device_label">Configure Device</string>
+    <string name="configure_device_warning">This will sent multiple SMS to and from the device, which may cause charges on your mobile account</string>
 
     <!-- Settings -->
     <string name="saved_country_iso">saved_country_iso</string>
 
     <string name="pref_title_tracker_number">Tracker number</string>
-    <string name="pref_hint_tracker_number">Enter on form: 07XXXXXXXX</string>
+    <string name="pref_hint_tracker_number">Enter on form: +46701234567</string>
+    <string name="pref_key_tracker_number">pref_key_tracker_number</string>
+
+    <string name="pref_title_user_number">User number</string>
+    <string name="pref_hint_user_number">Enter on form: 0701234567</string>
+    <string name="pref_key_user_number">pref_key_user_number</string>
 
     <string-array name="pref_list_titles_sms_message">
         <item>getstatus</item>
@@ -30,6 +68,7 @@
         <item>getinfo</item>
         <item>getio</item>
         <item>getparam</item>
+        <item>setparam</item>
         <item>banlist</item>
         <item>crashlog</item>
     </string-array>
@@ -44,6 +83,7 @@
         <item>getinfo</item>
         <item>getio</item>
         <item>getparam</item>
+        <item>setparam</item>
         <item>banlist</item>
         <item>crashlog</item>
     </string-array>
@@ -52,15 +92,21 @@
         <item>ggps</item>
         <item>getgps</item>
     </string-array>
+    <string name="pref_key_sms_message">pref_key_sms_message</string>
 
     <string name="pref_title_login_user">User name</string>
     <string name="pref_hint_login_user">User name registered in tracker</string>
+    <string name="pref_key_login_user">pref_key_login_user</string>
 
     <string name="pref_title_login_password">Password</string>
     <string name="pref_hint_login_password">Password registered in tracker</string>
+    <string name="pref_key_login_password">pref_key_login_password</string>
 
     <string name="pref_title_zoom_level">Map zoom</string>
     <string name="pref_description_zoom_level">Select zoom level</string>
+    <string name="pref_button_configure_device_key">pref_button_configure_device_key</string>
+    <string name="pref_button_configure_device_title">Configure Device</string>
+    <string name="pref_key_zoom_level">pref_key_zoom_level</string>
 
     <!-- Car Status -->
     <!-- ggps -->
@@ -136,9 +182,12 @@
     <string name="getinfo_saved_reset_source_identification">getinfo_saved_reset_source_identification</string>
     <string name="getinfo_saved_data_mode">getinfo_saved_data_mode</string>
     <string name="getinfo_saved_records_found">getinfo_saved_records_found</string>
-
-
-
+    <!-- getparam -->
+    <string name="getparam_saved_param_id">getparam_saved_param_id</string>
+    <string name="getparam_saved_param_value">getparam_saved_param_value</string>
+    <!-- setparam -->
+    <string name="setparam_saved_param_id">setparam_saved_param_id</string>
+    <string name="setparam_saved_param_value">setparam_saved_param_value</string>
 
 
     <!-- Car Information Fragment -->

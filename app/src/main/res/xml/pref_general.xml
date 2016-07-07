@@ -6,15 +6,25 @@
             android:hint="@string/pref_hint_tracker_number"
             android:summary="%s"
             android:inputType="phone"
-            android:key="pref_key_tracker_number"
+            android:key="@string/pref_key_tracker_number"
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/pref_title_tracker_number" />
 
+        <se.simulator.findmycar_gpstracker.PreferenceTelephoneNumber
+            android:hint="@string/pref_hint_user_number"
+            android:summary="%s"
+            android:inputType="phone"
+            android:key="@string/pref_key_user_number"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_user_number" />
+
         <MultiSelectListPreference
             android:dialogTitle="@string/pref_title_sms_message"
-            android:key="pref_key_sms_message"
+            android:key="@string/pref_key_sms_message"
             android:summary=""
             android:title="@string/pref_title_sms_message"
             android:entries="@array/pref_list_titles_sms_message"
@@ -26,7 +36,7 @@
             android:hint="@string/pref_hint_login_user"
             android:summary="%s"
             android:inputType="text"
-            android:key="pref_key_login_user"
+            android:key="@string/pref_key_login_user"
             android:maxLength="5"
             android:selectAllOnFocus="true"
             android:singleLine="true"
@@ -36,7 +46,7 @@
             android:hint="@string/pref_hint_login_password"
             android:summary="%s"
             android:inputType="text"
-            android:key="pref_key_login_password"
+            android:key="@string/pref_key_login_password"
             android:maxLength="5"
             android:selectAllOnFocus="true"
             android:singleLine="true"
@@ -45,7 +55,7 @@
         <se.simulator.findmycar_gpstracker.NumberPickerPreference
             android:defaultValue="@integer/pref_default_zoom_level"
             android:id="@+id/pref_key_zoom_level"
-            android:key="pref_key_zoom_level"
+            android:key="@string/pref_key_zoom_level"
             android:title="@string/pref_title_zoom_level"
             preference:maxValue="@integer/pref_max_zoom_level"
             preference:minValue="@integer/pref_min_zoom_level"
@@ -53,4 +63,7 @@
             android:dialogMessage="@string/pref_description_zoom_level"
             />
 
+        <Preference
+            android:key="@string/pref_button_configure_device_key"
+            android:title="@string/pref_button_configure_device_title" />
 </PreferenceScreen>

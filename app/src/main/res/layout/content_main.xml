@@ -48,6 +48,13 @@
             android:id="@+id/parameter_selection_main"
             android:visibility="gone"
             android:maxLength="4"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:minWidth="100dp"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:id="@+id/new_value_main"
+            android:visibility="gone" />
     </LinearLayout>
 
     <FrameLayout

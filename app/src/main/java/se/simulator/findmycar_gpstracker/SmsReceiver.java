@@ -53,8 +53,8 @@ public class SmsReceiver extends BroadcastReceiver {
                 msgsBody = msgs[i].getMessageBody();
                 if (msgsBody != null) {
                     Log.e("SmsReceiver", "onReceive Incoming adress: " + msgs[i].getOriginatingAddress());
-                    Log.e("SmsReceiver", "onReceive Tracker adress: " + sharedPref.getString("pref_key_tracker_number", "false"));
-                    if (utils.compare(msgs[i].getOriginatingAddress(), sharedPref.getString("pref_key_tracker_number", "false"))) {
+                    Log.e("SmsReceiver", "onReceive Tracker adress: " + sharedPref.getString(context.getString(R.string.pref_key_tracker_number), "false"));
+                    if (utils.compare(msgs[i].getOriginatingAddress(), sharedPref.getString(context.getString(R.string.pref_key_tracker_number), "false"))) {
                         Log.e("SmsReceiver", "onReceive SmsType: " + getSmsType(msgsBody));
                         switch (getSmsType(msgsBody)) {
                             case "ggps":
@@ -84,6 +84,15 @@ public class SmsReceiver extends BroadcastReceiver {
                             case "getinfo":
                                 handleSmsgetinfo(msgsBody + " ",editor,context);
                                 break;
+                            case "getparam":
+                                handleSmsgetparam(msgsBody + " ",editor,context);
+                                break;
+                            case "setparam":
+                                handleSmssetparam(msgsBody + " ",editor,context);
+                                break;
+                            case "warning":
+                                handleSmswarning(msgsBody + " ",editor,context);
+                                break;
                         }
 
                     }
@@ -97,11 +106,11 @@ public class SmsReceiver extends BroadcastReceiver {
         if (str.isEmpty()) {
             return "";
         }
-        CharSequence[] searchterms = {"Data Link:", "Clock Sync:", ")", "Last Configuration was performed on:",
-                "Lat:", "Url:", "Code Ver:", "INI:", "DI", "I/O ID:", "Digital Outputs are set to:", "Text:",
+        CharSequence[] searchterms = {"WARNING:", "Data Link:", "Clock Sync:", ")", "Last Configuration was performed on:",
+                "Lat:", "Url:", "Code Ver:", "INI:", "DI", "I/O ID:", "Digital Outputs are set to:", "New Text:", "Text:", "New Val:", "Val:",
                 "New Text:", "OPS", "OPS PART", "FLUSH", "Static Nav is", "00000.00s.0.000", "BLog:", "LVCAN ProgNum:", "Prog:"};
-        String[] returnterms = {"getstatus", "getweektime", "getops", "getcfgtime", "getgps", "ggps",
-                "getver", "getinfo", "getio", "readio", "setdigout", "getparam", "setparam", "getparam 1271",
+        String[] returnterms = {"warning", "getstatus", "getweektime", "getops", "getcfgtime", "getgps", "ggps",
+                "getver", "getinfo", "getio", "readio", "setdigout", "setparam", "getparam", "setparam" , "getparam", "setparam", "getparam 1271",
                 "readops", "flush", "sn", "banlist", "crashlog", "lvcangetprog/lvcansetprog", "lvcangetinfo"};
 
         for (int i = 0; i < searchterms.length; i++) {
@@ -737,6 +746,83 @@ public class SmsReceiver extends BroadcastReceiver {
         startIndex = msgsBody.indexOf("RF:",endIndex) + "RF:".length();
         endIndex = msgsBody.indexOf(' ',startIndex);
         editor.putString(context.getString(R.string.getinfo_saved_records_found), msgsBody.substring(startIndex, endIndex));
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
+    }
+
+    private void handleSmsgetparam(String msgsBody, SharedPreferences.Editor editor, Context context){
+        int startIndex;
+        int endIndex;
+
+        // Get parameter ID
+        startIndex = msgsBody.indexOf("Param ID:") + "Param ID:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.getparam_saved_param_id), msgsBody.substring(startIndex, endIndex));
+
+        // Get parameter value
+        startIndex = msgsBody.indexOf("Val:",endIndex);
+        if (startIndex != -1) {
+            editor.putString(context.getString(R.string.getparam_saved_param_value), msgsBody.substring(startIndex + "Val:".length()));
+        }
+        else{
+            startIndex = msgsBody.indexOf("Text:",endIndex) + "Text:".length();
+            editor.putString(context.getString(R.string.getparam_saved_param_value), msgsBody.substring(startIndex));
+        }
+
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
+    }
+
+    private void handleSmssetparam(String msgsBody, SharedPreferences.Editor editor, Context context){
+        int startIndex;
+        int endIndex;
+
+        // Get parameter ID
+        startIndex = msgsBody.indexOf("Param ID:") + "Param ID:".length();
+        endIndex = msgsBody.indexOf(' ',startIndex);
+        editor.putString(context.getString(R.string.setparam_saved_param_id), msgsBody.substring(startIndex, endIndex));
+
+        // Get parameter value
+        startIndex = msgsBody.indexOf("New Val:",endIndex);
+        if (startIndex != -1) {
+            editor.putString(context.getString(R.string.setparam_saved_param_value), msgsBody.substring(startIndex + "New Val:".length()));
+        }
+        else{
+            startIndex = msgsBody.indexOf("New Text:",endIndex) + "New Text:".length();
+            editor.putString(context.getString(R.string.setparam_saved_param_value), msgsBody.substring(startIndex));
+        }
+
+        // Commit changes
+        editor.commit();
+
+        // Update GUI
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(context.getString(R.string.filter_message_received));
+        context.sendBroadcast(updateIntent);
+    }
+
+    private void handleSmswarning(String msgsBody, SharedPreferences.Editor editor, Context context){
+
+        if(msgsBody.contains("Value detected")){
+            editor.putString(context.getString(R.string.setparam_saved_param_id), "");
+            editor.putString(context.getString(R.string.setparam_saved_param_value), msgsBody);
+        }
+        else{
+            editor.putString(context.getString(R.string.getparam_saved_param_id), "");
+            editor.putString(context.getString(R.string.getparam_saved_param_value), msgsBody);
+        }
 
         // Commit changes
         editor.commit();

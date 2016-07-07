@@ -1,6 +1,7 @@
 package se.simulator.findmycar_gpstracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -52,12 +54,28 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.pref_general);
+
+            // Add Configure Device Button
+            Preference configureDeviceButton = (Preference)findPreference(getString(R.string.pref_button_configure_device_key));
+            configureDeviceButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
+                @Override
+                public boolean onPreferenceClick(Preference preference){
+                    try {
+                        Intent intent = new Intent(getActivity(), ConfigureDeviceActivity.class);
+                        startActivity(intent);
+                    }
+                    catch (Exception e){
+                        Log.e("Open Activity", "onPreferenceClick: Unable to start Activity - ConfigureDeviceActivity");
+                    }
+                    return true;
+                }
+            });
         }
 
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key){
-            if (key.equals("pref_key_sms_message")){
+            if (key.equals(getString(R.string.pref_key_sms_message))){
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("spinner_main_position",0);
+                editor.putInt(getString(R.string.spinner_position_main),0);
                 editor.commit();
             }
         }

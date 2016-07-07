@@ -4,4 +4,183 @@
     <integer name="pref_default_zoom_level">15</integer>
     <integer name="pref_max_zoom_level">20</integer>
     <integer name="pref_min_zoom_level">1</integer>
+
+    <!-- Parameter ID -->
+        <!-- System parameters -->
+        <integer name="id_sleep_mode">1000</integer>
+        <integer name="id_sleep_timeout">200</integer>
+        <integer name="id_analog_input_value_range">1001</integer>
+        <integer name="id_stop_detection_source">1002</integer>
+        <integer name="id_static_navigation">1003</integer>
+        <integer name="id_ignition_source">1004</integer>
+        <integer name="id_savingSending_without_time_synchronization">201</integer>
+        <integer name="id_gnss_system">202</integer>
+
+        <!-- Records parameters -->
+        <integer name="id_sorting">1010</integer>
+        <integer name="id_active_data_link_timeout">1011</integer>
+        <integer name="id_server_response_timeout">1012</integer>
+
+        <!-- GSM parameters -->
+        <integer name="id_gprs_content_activation">1240</integer>
+        <integer name="id_apn_name">1242</integer>
+        <integer name="id_apn_username">1243</integer>
+        <integer name="id_apn_password">1244</integer>
+        <integer name="id_domain">1245</integer>
+        <integer name="id_target_server_port">1246</integer>
+        <integer name="id_protocol">1247</integer>
+        <integer name="id_sms_login">1252</integer>
+        <integer name="id_sms_password">1253</integer>
+        <integer name="id_sms_data_sending_settings">1250</integer>
+        <integer name="id_sms_data_send_week_time_schedule">1273</integer>
+        <integer-array name="id_authorized_phone_numbers">
+            <item> 1260 </item>
+            <item> 1261 </item>
+            <item> 1262 </item>
+            <item> 1263 </item>
+            <item> 1264 </item>
+            <item> 1265 </item>
+            <item> 1266 </item>
+            <item> 1267 </item>
+            <item> 1268 </item>
+            <item> 1269 </item>
+            <item> 1270 </item>
+        </integer-array>
+        <integer-array name="id_sms_event_predefined_numbers">
+            <item> 150 </item>
+            <item> 151 </item>
+            <item> 152 </item>
+            <item> 153 </item>
+            <item> 154 </item>
+            <item> 155 </item>
+            <item> 156 </item>
+            <item> 157 </item>
+            <item> 158 </item>
+            <item> 159 </item>
+        </integer-array>
+        <integer name="id_operator_list">1271</integer>
+
+        <!-- Data acquistion modes parameters -->
+            <!-- Home network GSM operator code "Vehicle on STOP" parameters -->
+            <integer name="id_home_vehicle_stop_min_period">1540</integer>
+            <integer name="id_home_vehicle_stop_min_saved_records">1543</integer>
+            <integer name="id_home_vehicle_stop_send_period">1544</integer>
+            <integer name="id_home_vehicle_stop_gprs_week_time">1545</integer>
+            <!-- Home network GSM operator code "Vehicle MOVING" parameters -->
+            <integer name="id_home_vehicle_moving_min_period">1550</integer>
+            <integer name="id_home_vehicle_moving_min_distance">1551</integer>
+            <integer name="id_home_vehicle_moving_min_angle">1552</integer>
+            <integer name="id_home_vehicle_moving_min_speed">1556</integer>
+            <integer name="id_home_vehicle_moving_min_speed_source">1557</integer>
+            <integer name="id_home_vehicle_moving_min_saved_records">1553</integer>
+            <integer name="id_home_vehicle_moving_send_period">1554</integer>
+            <integer name="id_home_vehicle_moving_gprs_week_time">1555</integer>
+            <!-- Roaming network GSM operator code "Vehicle on STOP" parameters -->
+            <integer name="id_roaming_vehicle_stop_min_period">1560</integer>
+            <integer name="id_roaming_vehicle_stop_min_saved_records">1563</integer>
+            <integer name="id_roaming_vehicle_stop_send_period">1564</integer>
+            <integer name="id_roaming_vehicle_stop_gprs_week_time">1565</integer>
+            <!-- Roaming network GSM operator code "Vehicle MOVING" parameters -->
+            <integer name="id_roaming_vehicle_moving_min_period">1570</integer>
+            <integer name="id_roaming_vehicle_moving_min_distance">1571</integer>
+            <integer name="id_roaming_vehicle_moving_min_angle">1572</integer>
+            <integer name="id_roaming_vehicle_moving_min_speed">1576</integer>
+            <integer name="id_roaming_vehicle_moving_min_speed_source">1577</integer>
+            <integer name="id_roaming_vehicle_moving_min_saved_records">1573</integer>
+            <integer name="id_roaming_vehicle_moving_send_period">1574</integer>
+            <integer name="id_roaming_vehicle_moving_gprs_week_time">1575</integer>
+            <!-- Unknown network GSM operator code "Vehicle on STOP" parameters -->
+            <integer name="id_unknown_vehicle_stop_min_period">1580</integer>
+            <integer name="id_unknown_vehicle_stop_min_saved_records">1583</integer>
+            <integer name="id_unknown_vehicle_stop_send_period">1584</integer>
+            <integer name="id_unknown_vehicle_stop_gprs_week_time">1585</integer>
+            <!-- Unknown network GSM operator code "Vehicle MOVING" parameters -->
+            <integer name="id_unknown_vehicle_moving_min_period">1590</integer>
+            <integer name="id_unknown_vehicle_moving_min_distance">1591</integer>
+            <integer name="id_unknown_vehicle_moving_min_angle">1592</integer>
+            <integer name="id_unknown_vehicle_moving_min_speed">1596</integer>
+            <integer name="id_unknown_vehicle_moving_min_speed_source">1597</integer>
+            <integer name="id_unknown_vehicle_moving_min_saved_records">1593</integer>
+            <integer name="id_unknown_vehicle_moving_send_period">1594</integer>
+            <integer name="id_unknown_vehicle_moving_gprs_week_time">1595</integer>
+
+    <!-- Features Parameters -->
+    <integer name="id_digital_output_no1_usage_senarios">1600</integer>
+    <integer name="id_max_acceleration_force">1602</integer>
+    <integer name="id_max_breaking_force">1603</integer>
+    <integer name="id_max_cornering_force">1604</integer>
+    <integer name="id_max_allowed_speed">1605</integer>
+    <integer name="id_digital_output_no2_usage_senarios">1601</integer>
+    <integer name="id_trip">1280</integer>
+    <integer name="id_start_speed">1281</integer>
+    <integer name="id_ignition_off_timeout">1282</integer>
+    <integer name="id_trip_continuous_distance_counting">1283</integer>
+    <!-- Geofencing -->
+    <integer name="id_geofence_frame_border">1020</integer>
+        <!-- Geofence Zones 1/2/3/4/5 -->
+        <integer-array name="id_geofence_zone_shape">
+            <item>1030</item>
+            <item>1040</item>
+            <item>1050</item>
+            <item>1060</item>
+            <item>1070</item>
+        </integer-array>
+        <integer-array name="id_geofence_zone_priority">
+            <item>1031</item>
+            <item>1041</item>
+            <item>1051</item>
+            <item>1061</item>
+            <item>1071</item>
+        </integer-array>
+        <integer-array name="id_geofence_zone_generate_event">
+            <item>1032</item>
+            <item>1042</item>
+            <item>1052</item>
+            <item>1062</item>
+            <item>1072</item>
+        </integer-array>
+        <integer-array name="id_geofence_zone_x1">
+            <item>1033</item>
+            <item>1043</item>
+            <item>1053</item>
+            <item>1063</item>
+            <item>1073</item>
+        </integer-array>
+        <integer-array name="id_geofence_zone_y1">
+            <item>1034</item>
+            <item>1044</item>
+            <item>1054</item>
+            <item>1064</item>
+            <item>1074</item>
+        </integer-array>
+        <integer-array name="id_geofence_zone_x2">
+            <item>1035</item>
+            <item>1045</item>
+            <item>1055</item>
+            <item>1065</item>
+            <item>1075</item>
+        </integer-array>
+        <integer-array name="id_geofence_zone_y2">
+            <item>1036</item>
+            <item>1046</item>
+            <item>1056</item>
+            <item>1066</item>
+            <item>1076</item>
+        </integer-array>
+    <!-- Auto Geofencing -->
+    <integer name="id_autogeofencing_enable">1101</integer>
+    <integer name="id_autogeofencing_activation_timeout">1102</integer>
+    <integer name="id_autogeofencing_deactivate_by">1100</integer>
+    <integer name="id_autogeofencing_event_priority">1103</integer>
+    <integer name="id_autogeofencing_event_generating">1104</integer>
+    <integer name="id_autogeofencing_event_radius">1105</integer>
+
+    <integer name="id_ibutton_list">1610</integer>
+
+    <integer name="id_io_property">1300</integer>
+    <integer name="id_io_priority">1301</integer>
+    <integer name="id_io_high_level">1302</integer>
+    <integer name="id_io_low_level">1303</integer>
+    <integer name="id_io_logic_operand">1304</integer>
+    <integer name="id_io_averaging_length">1305</integer>
 </resources>

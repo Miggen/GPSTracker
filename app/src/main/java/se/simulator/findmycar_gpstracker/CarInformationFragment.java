@@ -203,6 +203,14 @@ public class CarInformationFragment extends Fragment {
                 textId1 += getResources().getString(R.string.getinfo_text_records_found)+ "\n";
                 textValue1 += sharedPref.getString(getString(R.string.getinfo_saved_records_found),"") + "\n";
                 break;
+            case "getparam":
+                textId1 += "Parameter " + sharedPref.getString(getString(R.string.getparam_saved_param_id),"") + ":" + "\n";
+                textValue1 += sharedPref.getString(getString(R.string.getparam_saved_param_value),"") + "\n";
+                break;
+            case "setparam":
+                textId1 += "Parameter " + sharedPref.getString(getString(R.string.setparam_saved_param_id),"") + ":" + "\n";
+                textValue1 += sharedPref.getString(getString(R.string.setparam_saved_param_value),"") + "\n";
+                break;
         }
 
 
