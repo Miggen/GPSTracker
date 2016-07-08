@@ -16,6 +16,7 @@
     <string name="send">Send</string>
     <string name="cancel">cancel</string>
     <string name="first_run">first_run</string>
+    <string name="configure">Configure</string>
     <!-- Main -->
     <string name="spinner_prompt_main">Spinner Promt Main</string>
     <string name="spinner_position_main">spinner_position_main</string>
@@ -33,11 +34,9 @@
         This password will not be encrypted and be shown in plain sight in the text message history.</string>
     <string name="configure_password_title">Password:</string>
     <string name="configure_password_hint">123ab</string>
-    <string name="configure_user_number_description">Number to tracker, should be provided with inserted
-        SIM-card. Domestic number required.</string>
+    <string name="configure_user_number_description">Number to user phone, domestic number required.</string>
     <string name="configure_user_number_title">Number User:</string>
     <string name="configure_user_number_hint">0701234567</string>
-    <string name="configure_button_get_number_label">Get Number</string>
     <string name="configure_no_number_toast">This application require a tracker number to work, the number can later be changed in Settings.</string>
     <string name="open_configure_device_description">Do you wish to configure the tracker device?</string>
 
@@ -45,6 +44,34 @@
     <!-- Configure Device -->
     <string name="configure_device_label">Configure Device</string>
     <string name="configure_device_warning">This will sent multiple SMS to and from the device, which may cause charges on your mobile account</string>
+    <string name="configure_checkbox_text_reset_default">Reset to defaults</string>
+    <string name="configure_advanced_show_more">Show advanced settings</string>
+    <string name="configure_advanced_show_less">Hide advanced settings</string>
+    <string name="configure_text_sleep_mode">Sleep mode:</string>
+    <string-array name="configure_spinner_entries_sleep_modes">
+        <item>Off</item>
+        <item>Sleep</item>
+        <item>Deep sleep</item>
+    </string-array>
+    <string name="configure_text_number_slot">Number exclusive:</string>
+    <string-array name="configure_spinner_entries_number_slot">
+        <item>Off</item>
+        <item>Slot 1</item>
+        <item>Slot 2</item>
+        <item>Slot 3</item>
+        <item>Slot 4</item>
+        <item>Slot 5</item>
+        <item>Slot 6</item>
+        <item>Slot 7</item>
+        <item>Slot 8</item>
+        <item>Slot 9</item>
+        <item>Slot 10</item>
+        <item>Slot 11</item>
+    </string-array>
+    <string name="configure_checkbox_text_old_login">Existing login info</string>
+    <string name="configure_login_info_old_user">Old user name:</string>
+    <string name="configure_login_info_old_password">Old password:</string>
+    <string name="configure_checkbox_text_gprs_enabled">GPRS enabled</string>
 
     <!-- Settings -->
     <string name="saved_country_iso">saved_country_iso</string>

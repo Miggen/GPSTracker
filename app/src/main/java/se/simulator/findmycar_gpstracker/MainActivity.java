@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity{
         PreferenceManager.setDefaultValues(this,getString(R.string.pref_file_key),MODE_PRIVATE,R.xml.pref_general,false);
         sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
 
-        //if (sharedPref.getBoolean(getString(R.string.first_run),true))
-        //{
+        if (sharedPref.getBoolean(getString(R.string.first_run),true))
+        {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putBoolean(getString(R.string.first_run),false);
             editor.commit();
             initialSetup();
-        //}
+        }
 
         addSpinner();
     }

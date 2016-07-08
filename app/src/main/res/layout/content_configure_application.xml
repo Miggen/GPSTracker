@@ -22,11 +22,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100sp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/configure_tracker_number_title"
             android:gravity="center_vertical"
-            android:textSize="16sp" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -46,11 +46,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100sp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/configure_user_title"
             android:gravity="center_vertical"
-            android:textSize="16sp"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -71,11 +71,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100sp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/configure_password_title"
             android:gravity="center_vertical"
-            android:textSize="16sp"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -96,11 +96,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/configure_user_number_title"
             android:gravity="center_vertical"
-            android:textSize="16sp" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -109,11 +109,6 @@
             android:lines="1"
             android:hint="@string/configure_user_number_hint"
             android:id="@+id/content_configure_application_user_number"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/configure_button_get_number_label"
-            android:onClick="getUserPhoneNumber"/>
     </LinearLayout>
 
     <RelativeLayout

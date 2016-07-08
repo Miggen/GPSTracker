@@ -13,10 +13,123 @@
     tools:context="se.simulator.findmycar_gpstracker.ConfigureDeviceActivity"
     tools:showIn="@layout/activity_configure_device">
 
-  <TextView
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configure_checkbox_text_reset_default"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:id="@+id/configure_checkbox_reset_device"/>
+
+
+  <CheckBox
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="TODO"/>
+      android:text="@string/configure_advanced_show_more"
+      android:button="@null"
+      android:onClick="toggleAdvancedView"
+      android:paddingTop="@dimen/activity_vertical_margin"
+      android:layout_gravity="end" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/configure_advanced_layout"
+      android:orientation="vertical"
+      android:visibility="gone">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/configure_text_sleep_mode"
+          android:textAppearance="?android:attr/textAppearanceMedium"/>
+      <Spinner
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:entries="@array/configure_spinner_entries_sleep_modes"
+          android:id="@+id/configure_sleep_mode_spinner" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/configure_text_number_slot"
+          android:textAppearance="?android:attr/textAppearanceMedium"/>
+      <Spinner
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:entries="@array/configure_spinner_entries_number_slot"
+          android:id="@+id/configure_number_slot_spinner" />
+    </LinearLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configure_checkbox_text_old_login"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:onClick="toggleLoginInfoView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/configure_login_info_layout"
+        android:visibility="gone">
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/configure_login_info_old_user"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text"
+            android:maxLength="5"
+            android:hint="@string/configure_user_hint"
+            android:id="@+id/configure_old_user"/>
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/configure_login_info_old_password"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text"
+            android:maxLength="5"
+            android:hint="@string/configure_password_hint"
+            android:id="@+id/configure_old_password"/>
+      </LinearLayout>
+    </LinearLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configure_checkbox_text_gprs_enabled"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:id="@+id/configure_checkbox_gprs_enabled"/>
+
+  </LinearLayout>
 
 
   <RelativeLayout
@@ -26,12 +139,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ok"
+        android:text="@string/configure"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/button_configure_device_cancel"
         android:layout_toStartOf="@+id/button_configure_device_cancel"
         android:onClick="acceptChanges"
-        />
+        android:id="@+id/button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -42,5 +155,6 @@
         android:layout_alignParentEnd="true"
         android:onClick="discardChanges"
         android:id="@+id/button_configure_device_cancel" />
+
   </RelativeLayout>
 </LinearLayout>
