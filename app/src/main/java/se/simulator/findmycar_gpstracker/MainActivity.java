@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity{
                 longitude = Double.parseDouble(sharedPref.getString(getString(R.string.ggps_saved_longitude),"1000"));
                 zoomLevel = sharedPref.getInt(getString(R.string.pref_key_zoom_level),15);
 
-                intent = new Intent(this,MapActivity.class);
+                intent = new Intent(this,LocationMapActivity.class);
                 intent.putExtra("latitude",latitude);
                 intent.putExtra("longitude",longitude);
                 intent.putExtra("zoomLevel",zoomLevel);
@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity{
                 longitude = Double.parseDouble(sharedPref.getString(getString(R.string.getgps_saved_longitude),"1000"));
                 zoomLevel = sharedPref.getInt(getString(R.string.pref_key_zoom_level),15);
 
-                intent = new Intent(this,MapActivity.class);
+                intent = new Intent(this,LocationMapActivity.class);
                 intent.putExtra("latitude",latitude);
                 intent.putExtra("longitude",longitude);
                 intent.putExtra("zoomLevel",zoomLevel);

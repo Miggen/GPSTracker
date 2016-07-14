@@ -11,7 +11,6 @@ package se.simulator.findmycar_gpstracker;
         import android.util.AttributeSet;
         import android.util.Log;
 
-        import com.google.android.gms.playlog.internal.LogEvent;
 
 public class PreferenceTelephoneNumber extends EditTextPreference {
 

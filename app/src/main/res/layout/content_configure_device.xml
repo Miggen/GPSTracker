@@ -21,6 +21,19 @@
         android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
         android:id="@+id/configure_checkbox_reset_device"/>
 
+  <CheckBox
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/configure_checkbox_text_alarm_event"
+      android:button="@null"
+      android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+      android:id="@+id/configure_checkbox_alarm_event"/>
+
+  <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Show Geofence"
+      android:onClick="testGeofence"/>
 
   <CheckBox
       android:layout_width="wrap_content"

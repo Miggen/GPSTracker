@@ -32,6 +32,7 @@ import java.util.ArrayList;
 public class ConfigureDeviceActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_SEND_SMS = 1;
     CheckBox resetDeviceCheckBox;
+    CheckBox alarmEventCheckBox;
     Spinner sleepModeSpinner;
     Spinner numberSlotSpinner;
     CheckBox gprsEnabledCheckBox;
@@ -51,6 +52,9 @@ public class ConfigureDeviceActivity extends AppCompatActivity {
 
         resetDeviceCheckBox = (CheckBox) findViewById(R.id.configure_checkbox_reset_device);
         resetDeviceCheckBox.setChecked(true);
+
+        alarmEventCheckBox = (CheckBox) findViewById(R.id.configure_checkbox_alarm_event);
+        alarmEventCheckBox.setChecked(true);
 
         sleepModeSpinner = (Spinner) findViewById(R.id.configure_sleep_mode_spinner);
         sleepModeSpinner.setSelection(1);
@@ -187,6 +191,37 @@ public class ConfigureDeviceActivity extends AppCompatActivity {
                                 " setparam 150 " + sharedPref.getString(getString(R.string.pref_key_user_number),"");
                         sendSms(msg);
                     }
+
+                    if (alarmEventCheckBox.isChecked()){
+                        msg = loginUser + " " +
+                                loginPassword +
+                                " setparam 1310 1";
+                        sendSms(msg);
+                        msg = loginUser + " " +
+                                loginPassword +
+                                " setparam 1311 2";
+                        sendSms(msg);
+                        msg = loginUser + " " +
+                                loginPassword +
+                                " setparam 1312 0";
+                        sendSms(msg);
+                        msg = loginUser + " " +
+                                loginPassword +
+                                " setparam 1313 0";
+                        sendSms(msg);
+                        msg = loginUser + " " +
+                                loginPassword +
+                                " setparam 1314 0";
+                        sendSms(msg);
+                        msg = loginUser + " " +
+                                loginPassword +
+                                " setparam 1315 1";
+                        sendSms(msg);
+                        msg = loginUser + " " +
+                                loginPassword +
+                                " setparam 101 1,";
+                        sendSms(msg);
+                    }
                 }
             });
 
@@ -247,5 +282,24 @@ public class ConfigureDeviceActivity extends AppCompatActivity {
                     " setparam " + parameters[i] + " " + values[i];
             sm.sendTextMessage(to_number,null,msg,null,null);
         }
+    }
+
+    public void testGeofence(View view){
+        double latitude;
+        double longitude;
+        int zoomLevel;
+        Intent intent;
+
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_file_key),MODE_PRIVATE);
+
+        latitude = Double.parseDouble(sharedPref.getString(getString(R.string.getgps_saved_latitude),"1000"));
+        longitude = Double.parseDouble(sharedPref.getString(getString(R.string.getgps_saved_longitude),"1000"));
+        zoomLevel = sharedPref.getInt(getString(R.string.pref_key_zoom_level),15);
+
+        intent = new Intent(this,GeofenceMapActivity.class);
+        intent.putExtra("latitude",latitude);
+        intent.putExtra("longitude",longitude);
+        intent.putExtra("zoomLevel",zoomLevel);
+        startActivity(intent);
     }
 }

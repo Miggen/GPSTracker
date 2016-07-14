@@ -45,6 +45,7 @@
     <string name="configure_device_label">Configure Device</string>
     <string name="configure_device_warning">This will sent multiple SMS to and from the device, which may cause charges on your mobile account</string>
     <string name="configure_checkbox_text_reset_default">Reset to defaults</string>
+    <string name="configure_checkbox_text_alarm_event">Alert on alarm</string>
     <string name="configure_advanced_show_more">Show advanced settings</string>
     <string name="configure_advanced_show_less">Hide advanced settings</string>
     <string name="configure_text_sleep_mode">Sleep mode:</string>
@@ -72,6 +73,8 @@
     <string name="configure_login_info_old_user">Old user name:</string>
     <string name="configure_login_info_old_password">Old password:</string>
     <string name="configure_checkbox_text_gprs_enabled">GPRS enabled</string>
+
+    <string name="pref_geofence_shape">pref_geofence_shape</string>
 
     <!-- Settings -->
     <string name="saved_country_iso">saved_country_iso</string>
@@ -292,9 +295,25 @@
     <string name="getinfo_text_data_mode">Data mode state:</string>
     <string name="getinfo_text_records_found">Records found:</string>
 
-    <!-- Map -->
+    <!-- Location Map -->
     <string name="map_title_marker">Here is your car.</string>
-    <string name="title_activity_map">Map</string>
+    <string name="title_activity_location_map">Map</string>
+
+    <!-- Geofence Map -->
+    <string name="title_activity_geofence_map">Geofence</string>
+    <string name="geofence_text_zone_selection">Zone nr:</string>
+    <string name="geofence_text_shape_selection">Shape:</string>
+    <string-array name="geofence_entries_shape_selection">
+        <item>Circle</item>
+        <item>Rectangle</item>
+    </string-array>
+    <string-array name="geofence_entries_zone_selection">
+        <item> 1 </item>
+        <item> 2 </item>
+        <item> 3 </item>
+        <item> 4 </item>
+        <item> 5 </item>
+    </string-array>
 
 
 </resources>

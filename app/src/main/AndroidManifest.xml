@@ -57,12 +57,20 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map"
+            android:name=".LocationMapActivity"
+            android:label="@string/title_activity_location_map"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="se.simulator.findmycar_gpstracker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".GeofenceMapActivity"
+            android:label="@string/title_activity_geofence_map"
+            android:parentActivityName=".ConfigureDeviceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="se.simulator.findmycar_gpstracker.ConfigureDeviceActivity" />
         </activity>
         <activity
             android:name=".ConfigureApplicationActivity"
