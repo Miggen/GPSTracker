@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GeofenceMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -199,12 +200,8 @@ public class GeofenceMapActivity extends AppCompatActivity implements OnMapReady
                         markerTopRight.setPosition(new LatLng(markerTopRight.getPosition().latitude,markerBottomRight.getPosition().longitude));
                         markerBottomLeft.setPosition(new LatLng(markerBottomRight.getPosition().latitude,markerBottomLeft.getPosition().longitude));
                     }
-                    ArrayList<LatLng> coordinateList = new ArrayList<LatLng>(4);
-                    coordinateList.add(markerTopLeft.getPosition());
-                    coordinateList.add(markerTopRight.getPosition());
-                    coordinateList.add(markerBottomRight.getPosition());
-                    coordinateList.add(markerBottomLeft.getPosition());
-                    rectangle.setPoints(coordinateList);
+
+                    rectangle.setPoints(Arrays.asList(markerTopLeft.getPosition(),markerTopRight.getPosition(),markerBottomRight.getPosition(),markerBottomLeft.getPosition()));
                 }
             }
 
