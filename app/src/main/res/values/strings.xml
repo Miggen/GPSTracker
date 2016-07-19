@@ -74,8 +74,6 @@
     <string name="configure_login_info_old_password">Old password:</string>
     <string name="configure_checkbox_text_gprs_enabled">GPRS enabled</string>
 
-    <string name="pref_geofence_shape">pref_geofence_shape</string>
-
     <!-- Settings -->
     <string name="saved_country_iso">saved_country_iso</string>
 
@@ -314,6 +312,7 @@
         <item> 4 </item>
         <item> 5 </item>
     </string-array>
-
+    <string name="pref_geofence_shape">pref_geofence_shape</string>
+    <string name="pref_geofence_coordinates">pref_geofence_coordinates</string>
 
 </resources>

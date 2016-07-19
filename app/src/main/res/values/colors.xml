@@ -3,4 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="color_geofence_background">#6099ccff</color>
+    <color name="color_geofence_edge">#0066ff</color>
 </resources>
