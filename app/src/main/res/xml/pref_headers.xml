@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:preference="http://schemas.android.com/apk/res-auto">
+        <PreferenceCategory android:title="test">
+                <Preference
+                    android:key="pref1"
+                    android:title="@string/pref_button_configure_device_title" />
+                <Preference
+                    android:key="pref2"
+                    android:title="@string/pref_button_configure_device_title" />
+        </PreferenceCategory>
+
+        <PreferenceCategory android:title="test2">
+                <Preference
+                    android:key="pref3"
+                    android:title="@string/pref_button_configure_device_title" />
+                <Preference
+                    android:key="pref4"
+                    android:title="@string/pref_button_configure_device_title" />
+        </PreferenceCategory>
+
+</PreferenceScreen>

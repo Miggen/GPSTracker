@@ -2,6 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:preference="http://schemas.android.com/apk/res-auto">
 
+        <PreferenceScreen android:title="screen1">
+                <EditTextPreference android:text="test1"/>
+                <EditTextPreference android:text="test2"/>
+        </PreferenceScreen>
         <se.simulator.findmycar_gpstracker.PreferenceTelephoneNumber
             android:hint="@string/pref_hint_tracker_number"
             android:summary="%s"
