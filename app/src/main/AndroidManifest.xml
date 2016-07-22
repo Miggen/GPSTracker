@@ -67,10 +67,10 @@
         <activity
             android:name=".GeofenceMapActivity"
             android:label="@string/title_activity_geofence_map"
-            android:parentActivityName=".ConfigureDeviceActivity">
+            android:parentActivityName=".SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="se.simulator.findmycar_gpstracker.ConfigureDeviceActivity" />
+                android:value="se.simulator.findmycar_gpstracker.SettingsActivity" />
         </activity>
         <activity
             android:name=".ConfigureApplicationActivity"

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:preference="http://schemas.android.com/apk/res-auto">
-        <PreferenceCategory android:title="test">
+        <PreferenceCategory android:title="@string/pref_title_application_category">
                 <Preference
-                    android:key="pref1"
-                    android:title="@string/pref_button_configure_device_title" />
-                <Preference
-                    android:key="pref2"
-                    android:title="@string/pref_button_configure_device_title" />
+                    android:key="@string/pref_key_user_information"
+                    android:title="@string/pref_title_user_information" />
         </PreferenceCategory>
 
-        <PreferenceCategory android:title="test2">
+        <PreferenceCategory android:title="@string/pref_title_configure_category">
                 <Preference
-                    android:key="pref3"
-                    android:title="@string/pref_button_configure_device_title" />
+                    android:key="@string/pref_key_general"
+                    android:title="@string/pref_title_general" />
                 <Preference
-                    android:key="pref4"
-                    android:title="@string/pref_button_configure_device_title" />
+                    android:key="@string/pref_key_alarm"
+                    android:title="@string/pref_title_alarm" />
+                <Preference
+                    android:key="@string/pref_key_geofence"
+                    android:title="@string/pref_title_geofence" />
         </PreferenceCategory>
 
 </PreferenceScreen>

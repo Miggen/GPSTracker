@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:preference="http://schemas.android.com/apk/res-auto">
+
+        <Preference
+            android:key="@string/pref_key_geofence_map"
+            android:title="@string/pref_title_geofence_map" />
+
+        <ListPreference
+            android:dialogTitle="@string/pref_title_geofence_zone_select"
+            android:key="@string/pref_key_geofence_zone_select"
+            android:summary="%s"
+            android:title="@string/pref_title_geofence_zone_select"
+            android:entries="@array/pref_list_titles_geofence_zone_select"
+            android:entryValues="@array/pref_list_values_geofence_zone_select"
+            android:defaultValue="@string/pref_default_geofence_zone_select"
+            />
+        <CheckBoxPreference android:persistent="false"
+                android:title="@string/pref_title_geofence_active"
+                android:key="@string/pref_key_geofence_active"/>
+        <ListPreference
+            android:dialogTitle="@string/pref_title_geofence_trigger"
+            android:key="@string/pref_key_geofence_trigger"
+            android:summary="%s"
+            android:title="@string/pref_title_geofence_trigger"
+            android:entries="@array/pref_list_titles_geofence_trigger"
+            android:entryValues="@array/pref_list_values_geofence_trigger"
+            android:persistent="false"
+            />
+        <se.simulator.findmycar_gpstracker.PreferenceTelephoneNumber
+            android:hint="@string/pref_hint_geofence_event_number"
+            android:summary="%s"
+            android:inputType="phone"
+            android:key="@string/pref_key_geofence_event_number"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_geofence_event_number"
+            android:persistent="false"/>
+
+        <se.simulator.findmycar_gpstracker.AutoSummaryEditTextPreference
+            android:hint="@string/pref_hint_geofence_message"
+            android:summary="%s"
+            android:inputType="text"
+            android:key="@string/pref_key_geofence_message"
+            android:maxLength="100"
+            android:title="@string/pref_title_geofence_message"
+            android:persistent="false"/>
+
+        <Preference
+            android:title=""
+            android:selectable="false"
+            />
+        <Preference
+            android:key="@string/pref_key_geofence_configure_device"
+            android:title="@string/pref_title_geofence_configure_device" />
+</PreferenceScreen>

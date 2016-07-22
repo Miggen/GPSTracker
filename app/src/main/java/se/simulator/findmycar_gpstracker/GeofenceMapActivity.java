@@ -292,15 +292,31 @@ public class GeofenceMapActivity extends AppCompatActivity implements OnMapReady
 
             // Zoom to fit
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            builder.include(markerCenter.getPosition());
-            builder.include(markerTopLeft.getPosition());
+            double latLngDist = Math.pow(4*Math.pow(markerCenter.getPosition().latitude - markerTopLeft.getPosition().latitude,2)
+                    + Math.pow(markerCenter.getPosition().longitude - markerTopLeft.getPosition().longitude,2),0.5);
             builder.include(new LatLng(
-                    2*markerCenter.getPosition().latitude - markerTopLeft.getPosition().latitude,
-                    2*markerCenter.getPosition().longitude - markerTopLeft.getPosition().longitude
+                    markerCenter.getPosition().latitude + latLngDist/2,
+                    markerCenter.getPosition().longitude
+            ));
+            builder.include(new LatLng(
+                    markerCenter.getPosition().latitude - latLngDist/2,
+                    markerCenter.getPosition().longitude
+            ));
+            builder.include(new LatLng(
+                    markerCenter.getPosition().latitude,
+                    markerCenter.getPosition().longitude + latLngDist
+            ));
+            builder.include(new LatLng(
+                    markerCenter.getPosition().latitude,
+                    markerCenter.getPosition().longitude - latLngDist
             ));
             LatLngBounds bounds = builder.build();
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,zoomPadding));
+            try {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, zoomPadding));
+            }catch (Exception e){
+                Log.e("Error", "drawMap: ", e);
+            }
         }
         else{
             markerTopLeft = mMap.addMarker(new MarkerOptions().position(topLeftCoordinates).draggable(true));
@@ -320,6 +336,21 @@ public class GeofenceMapActivity extends AppCompatActivity implements OnMapReady
                     .fillColor(ContextCompat.getColor(this,R.color.color_geofence_background));
 
             rectangle = mMap.addPolygon(polygonOptions);
+
+            // Zoom to fit
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(markerTopLeft.getPosition());
+            builder.include(markerTopRight.getPosition());
+            builder.include(markerBottomLeft.getPosition());
+            builder.include(markerBottomRight.getPosition());
+
+            LatLngBounds bounds = builder.build();
+
+            try {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, zoomPadding));
+            }catch (Exception e){
+                Log.e("Error", "drawMap: ", e);
+            }
         }
 
 

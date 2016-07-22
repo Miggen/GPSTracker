@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:preference="http://schemas.android.com/apk/res-auto">
+
+        <PreferenceScreen android:title="screen1">
+                <EditTextPreference android:text="test1"/>
+                <EditTextPreference android:text="test2"/>
+        </PreferenceScreen>
+        <se.simulator.findmycar_gpstracker.PreferenceTelephoneNumber
+            android:hint="@string/pref_hint_tracker_number"
+            android:summary="%s"
+            android:inputType="phone"
+            android:key="@string/pref_key_tracker_number"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_tracker_number" />
+
+        <se.simulator.findmycar_gpstracker.PreferenceTelephoneNumber
+            android:hint="@string/pref_hint_user_number"
+            android:summary="%s"
+            android:inputType="phone"
+            android:key="@string/pref_key_user_number"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_user_number" />
+
+        <MultiSelectListPreference
+            android:dialogTitle="@string/pref_title_sms_message"
+            android:key="@string/pref_key_sms_message"
+            android:summary=""
+            android:title="@string/pref_title_sms_message"
+            android:entries="@array/pref_list_titles_sms_message"
+            android:entryValues="@array/pref_list_values_sms_message"
+            android:defaultValue="@array/pref_default_sms_message"
+            />
+
+        <se.simulator.findmycar_gpstracker.AutoSummaryEditTextPreference
+            android:hint="@string/pref_hint_login_user"
+            android:summary="%s"
+            android:inputType="text"
+            android:key="@string/pref_key_login_user"
+            android:maxLength="5"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_login_user" />
+
+        <se.simulator.findmycar_gpstracker.AutoSummaryEditTextPreference
+            android:hint="@string/pref_hint_login_password"
+            android:summary="%s"
+            android:inputType="text"
+            android:key="@string/pref_key_login_password"
+            android:maxLength="5"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_login_password" />
+
+        <se.simulator.findmycar_gpstracker.NumberPickerPreference
+            android:defaultValue="@integer/pref_default_zoom_level"
+            android:id="@+id/pref_key_zoom_level"
+            android:key="@string/pref_key_zoom_level"
+            android:title="@string/pref_title_zoom_level"
+            preference:maxValue="@integer/pref_max_zoom_level"
+            preference:minValue="@integer/pref_min_zoom_level"
+            preference:wrapSelectorWheel="false"
+            android:dialogMessage="@string/pref_description_zoom_level"
+            />
+
+        <Preference
+            android:key="@string/pref_button_configure_device_key"
+            android:title="@string/pref_button_configure_device_title" />
+</PreferenceScreen>
